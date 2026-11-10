@@ -1,14 +1,15 @@
 ﻿using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using ShopTheThao.Data;
+
+using ShopTheThao.Models;
 using ShopTheThao.ViewModels;
 
 namespace ShopTheThao.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly AppDbContext db = new AppDbContext();
+        private readonly ShopTheThaoEntities11 db = new ShopTheThaoEntities11();
 
         public ActionResult Index()
         {

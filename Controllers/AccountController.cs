@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
-using ShopTheThao.Data;
+
 using ShopTheThao.Helpers;
 using ShopTheThao.Models;
 using ShopTheThao.ViewModels;
@@ -11,7 +12,7 @@ namespace ShopTheThao.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly AppDbContext db = new AppDbContext();
+        private readonly ShopTheThaoEntities11 db = new ShopTheThaoEntities11();
         private readonly PasswordHasher hasher = new PasswordHasher();
 
         [HttpGet, AllowAnonymous]
@@ -67,7 +68,9 @@ namespace ShopTheThao.Controllers
                 Email = email,
                 Phone = m.Phone,
                 PasswordHash = hasher.HashPassword(m.Password),
-                Role = "Customer"
+                Role = "Customer",
+                IsActive = true,
+                CreatedAt = DateTime.Now
             };
             db.Users.Add(user);
             db.SaveChanges();

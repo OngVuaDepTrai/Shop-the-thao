@@ -1,5 +1,6 @@
 ﻿@model ShopTheThao.Models.Product
 @{
+    var img = ShopTheThao.Helpers.ProductImage.For(Model);
     var vn = new System.Globalization.CultureInfo("vi-VN");
     var onSale = Model.SalePrice.HasValue && Model.SalePrice.Value < Model.Price;
     var now = onSale ? Model.SalePrice.Value : Model.Price;
@@ -11,10 +12,14 @@
 }
 <a class="p-card" href="@Url.Action("Details", "Product", new { id = Model.Id })">
     <div class="p-thumb">
-        @if (!string.IsNullOrEmpty(Model.ImageUrl))
-        {<img src="@Model.ImageUrl" alt="@Model.Name" /> }
+        @if (!string.IsNullOrEmpty(img))
+        {
+            <img src="@img" alt="@Model.Name" />
+        }
         else
-        { <i class="bi @ic"></i>}
+        {
+            <i class="bi @ic"></i>
+        }
         @if (onSale)
         {<span class="p-badge">-@(100 - (int)(Model.SalePrice.Value * 100 / Model.Price))%</span>}
         <span class="p-go"><i class="bi bi-arrow-up-right"></i></span>

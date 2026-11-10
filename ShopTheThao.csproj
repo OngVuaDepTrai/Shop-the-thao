@@ -59,6 +59,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -135,32 +137,71 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
-    <Compile Include="Data\AppDbContext.cs" />
-    <Compile Include="Data\DbSeeder.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AuthHelper.cs" />
-    <Compile Include="Migrations\202611101826426_InitialCreate.cs" />
-    <Compile Include="Migrations\202611101826426_InitialCreate.Designer.cs">
-      <DependentUpon>202611101826426_InitialCreate.cs</DependentUpon>
+    <Compile Include="Helpers\ProductImage.cs" />
+    <Compile Include="Models\Banner.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Banner.cs" />
-    <Compile Include="Models\Brand.cs" />
-    <Compile Include="Models\Cart.cs" />
-    <Compile Include="Models\CartItem.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\Contact.cs" />
-    <Compile Include="Models\Coupon.cs" />
-    <Compile Include="Models\InventoryLog.cs" />
-    <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\OrderItem.cs" />
-    <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\ProductVariant.cs" />
-    <Compile Include="Models\Review.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\Wishlist.cs" />
+    <Compile Include="Models\Brand.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cart.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CartItem.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Contact.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Coupon.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InventoryLog.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Order.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderItem.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductVariant.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Review.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ShopTheThaoModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShopTheThaoModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ShopTheThaoModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ShopTheThaoModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShopTheThaoModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Wishlist.cs">
+      <DependentUpon>ShopTheThaoModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AuthViewModels.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
@@ -188,6 +229,16 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\ShopTheThaoModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ShopTheThaoModel.edmx</DependentUpon>
+      <LastGenOutput>ShopTheThaoModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ShopTheThaoModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ShopTheThaoModel.edmx</DependentUpon>
+      <LastGenOutput>ShopTheThaoModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -195,6 +246,13 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
+    <EntityDeploy Include="Models\ShopTheThaoModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ShopTheThaoModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ShopTheThaoModel.edmx.diagram">
+      <DependentUpon>ShopTheThaoModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -232,6 +290,8 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Dashboard\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Content\images\products\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -261,9 +321,7 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202611101826426_InitialCreate.resx">
-      <DependentUpon>202611101826426_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

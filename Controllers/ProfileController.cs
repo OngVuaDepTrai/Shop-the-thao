@@ -4,8 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using ShopTheThao.Data;
+
 using ShopTheThao.Helpers;
+using ShopTheThao.Models;
 using ShopTheThao.ViewModels;
 
 namespace ShopTheThao.Controllers
@@ -13,7 +14,7 @@ namespace ShopTheThao.Controllers
     [Authorize]
     public class ProfileController : Controller
     {
-        private readonly AppDbContext db = new AppDbContext();
+        private readonly ShopTheThaoEntities11 db = new ShopTheThaoEntities11();
 
         public ActionResult Index()
         {
