@@ -1,0 +1,65 @@
+﻿:root {
+    --orange: #F97316;
+    --orange-hover: #EA580C;
+    --orange-dark: #C2410C;
+    --orange-light: #FFEDD5;
+    --bg: #FFF7ED;
+    --text: #431407;
+    --accent: #FACC15;
+    --muted: #9A6B4F;
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(194,65,12,.12);
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Be Vietnam Pro','Segoe UI',sans-serif
+}
+
+a {
+    color: var(--orange-dark)
+}
+
+    a:hover {
+        color: var(--orange-hover)
+    }
+
+.btn-orange {
+    background: var(--orange);
+    border: 0;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: .65rem 1.2rem;
+    transition: .2s
+}
+
+    .btn-orange:hover {
+        background: var(--orange-hover);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(249,115,22,.35)
+    }
+
+.btn-outline-orange {
+    border: 2px solid var(--orange);
+    color: var(--orange-dark);
+    font-weight: 600;
+    border-radius: 12px;
+    background: transparent
+}
+
+    .btn-outline-orange:hover {
+        background: var(--orange);
+        color: #fff
+    }
+
+.form-control:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 .2rem rgba(249,115,22,.2)
+}
+
+.text-orange {
+    color: var(--orange) !important
+}

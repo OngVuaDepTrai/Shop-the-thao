@@ -1,0 +1,80 @@
+﻿@model ShopTheThao.ViewModels.ProfileViewModel
+@{ ViewBag.Title = "Hồ sơ cá nhân"; }
+<link href="~/Content/css/auth.css" rel="stylesheet" />
+
+<div class="container py-5" style="max-width:900px">
+    @if (TempData["Success"] != null)
+    {<div class="alert alert-orange">@TempData["Success"]</div>}
+    @if (TempData["Error"] != null)
+    {<div class="alert alert-danger">@TempData["Error"]</div>}
+
+    <div class="profile-card">
+        <div class="profile-cover"></div>
+        <div class="px-4 pb-4">
+            <div class="d-flex align-items-end gap-3 flex-wrap">
+                @if (!string.IsNullOrEmpty(Model.AvatarUrl))
+                {<img class="avatar" src="@Model.AvatarUrl" alt="avatar" /> }
+                else
+                { <div class="avatar">@Model.FullName.Substring(0, 1).ToUpper()</div>}
+                <div class="flex-grow-1 pt-3">
+                    <h4 class="mb-0 fw-bold">@Model.FullName</h4>
+                    <small class="text-muted">@Model.Email</small>
+                </div>
+                @using (Html.BeginForm("UploadAvatar", "Profile", FormMethod.Post, new { enctype = "multipart/form-data", @class = "d-flex gap-2" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="file" name="file" accept="image/*" class="form-control form-control-sm" />
+                    <button class="btn btn-sm btn-outline-orange text-nowrap">Đổi ảnh</button>
+                }
+            </div>
+
+            <ul class="nav nav-pills mt-4 mb-3">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#info">Thông tin cá nhân</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pass">Đổi mật khẩu</button></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="info">
+                    @using (Html.BeginForm("UpdateInfo", "Profile", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Họ và tên</label>
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Số điện thoại</label>
+                                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Email (không thể đổi)</label>
+                                <input class="form-control" value="@Model.Email" disabled />
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Địa chỉ giao hàng</label>
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <button class="btn btn-orange mt-3">Lưu thay đổi</button>
+                    }
+                </div>
+                <div class="tab-pane fade" id="pass">
+                    @using (Html.BeginForm("ChangePassword", "Profile", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row g-3">
+                            <div class="col-12"><label class="form-label">Mật khẩu hiện tại</label><input type="password" name="OldPassword" class="form-control" required /></div>
+                            <div class="col-md-6"><label class="form-label">Mật khẩu mới</label><input type="password" name="NewPassword" class="form-control" minlength="6" required /></div>
+                            <div class="col-md-6"><label class="form-label">Nhập lại mật khẩu mới</label><input type="password" name="ConfirmPassword" class="form-control" required /></div>
+                        </div>
+                        <button class="btn btn-orange mt-3">Đổi mật khẩu</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
