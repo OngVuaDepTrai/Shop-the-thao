@@ -1,18 +1,27 @@
 ﻿:root {
+    color-scheme: dark;
     --orange: #F97316;
-    --orange-hover: #EA580C;
-    --orange-dark: #C2410C;
-    --orange-light: #FFEDD5;
-    --bg: #FFF7ED;
-    --text: #431407;
+    --orange-hover: #FB923C;
+    --orange-dark: #FDBA74;
+    --orange-light: #2B1B10;
     --accent: #FACC15;
-    --muted: #9A6B4F;
+    --bg: #120C08;
+    --card: #1B120C;
+    --input: #1B120C;
+    --line: #3B2616;
+    --text: #FFF1E6;
+    --muted: #C7A58C;
     --radius: 16px;
-    --shadow: 0 10px 30px rgba(194,65,12,.12);
+    --shadow: 0 16px 36px rgba(0,0,0,.5);
+}
+
+html, body {
+    min-height: 100%
 }
 
 body {
-    background: var(--bg);
+    background: radial-gradient(1100px 520px at 88% -8%,rgba(249,115,22,.16),transparent 70%), radial-gradient(900px 480px at -5% 30%,rgba(250,204,21,.06),transparent 70%),var(--bg);
+    background-attachment: fixed;
     color: var(--text);
     font-family: 'Be Vietnam Pro','Segoe UI',sans-serif
 }
@@ -25,6 +34,15 @@ a {
         color: var(--orange-hover)
     }
 
+.text-orange {
+    color: var(--orange) !important
+}
+
+.text-muted {
+    color: var(--muted) !important
+}
+
+/* Nút */
 .btn-orange {
     background: var(--orange);
     border: 0;
@@ -39,12 +57,12 @@ a {
         background: var(--orange-hover);
         color: #fff;
         transform: translateY(-1px);
-        box-shadow: 0 8px 18px rgba(249,115,22,.35)
+        box-shadow: 0 8px 20px rgba(249,115,22,.4)
     }
 
 .btn-outline-orange {
     border: 2px solid var(--orange);
-    color: var(--orange-dark);
+    color: var(--orange);
     font-weight: 600;
     border-radius: 12px;
     background: transparent
@@ -55,11 +73,126 @@ a {
         color: #fff
     }
 
-.form-control:focus {
-    border-color: var(--orange);
-    box-shadow: 0 0 0 .2rem rgba(249,115,22,.2)
+/* Form */
+.form-control {
+    background: var(--input);
+    color: var(--text);
+    border-color: var(--line)
 }
 
-.text-orange {
-    color: var(--orange) !important
+    .form-control::placeholder {
+        color: #8F7360
+    }
+
+    .form-control:focus {
+        background: var(--input);
+        color: var(--text);
+        border-color: var(--orange);
+        box-shadow: 0 0 0 .2rem rgba(249,115,22,.25)
+    }
+
+/* Khung rộng + thanh menu */
+.wrap {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem,4vw,4rem)
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(18,12,8,.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    padding: .85rem 0
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: var(--orange);
+    text-decoration: none;
+    white-space: nowrap
+}
+
+    .brand-logo:hover {
+        color: var(--orange-hover)
+    }
+
+.main-nav {
+    gap: .25rem;
+    margin-left: .5rem
+}
+
+    .main-nav a {
+        padding: .5rem 1rem;
+        border-radius: 10px;
+        font-weight: 600;
+        color: var(--text);
+        text-decoration: none;
+        transition: .2s
+    }
+
+        .main-nav a:hover {
+            background: var(--orange-light);
+            color: var(--orange)
+        }
+
+.nav-search {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    margin-left: auto
+}
+
+    .nav-search i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--orange)
+    }
+
+    .nav-search input {
+        width: 100%;
+        color: var(--text);
+        border: 1.5px solid var(--line);
+        background: var(--card);
+        border-radius: 12px;
+        padding: .6rem 1rem .6rem 2.5rem;
+        outline: none;
+        transition: .2s
+    }
+
+        .nav-search input:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 .2rem rgba(249,115,22,.22)
+        }
+
+/* Cho trang đăng nhập / hồ sơ (nền tối) */
+.auth-card, .profile-card {
+    background: var(--card) !important;
+    border-color: var(--line) !important
+}
+
+.input-ico .form-control {
+    background: var(--input) !important;
+    color: var(--text);
+    border-color: var(--line) !important
+}
+
+.alert-orange {
+    background: var(--orange-light);
+    color: var(--orange-dark);
+    border: 1px solid var(--line)
+}
+
+.validation-summary-errors {
+    background: #3A1414 !important;
+    color: #FCA5A5 !important
 }

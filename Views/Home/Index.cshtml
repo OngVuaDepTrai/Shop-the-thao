@@ -1,33 +1,110 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model ShopTheThao.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Trang chủ";
+    var icons = new System.Collections.Generic.Dictionary<string, string> {
+        { "bong-da", "bi-dribbble" }, { "chay-bo", "bi-person-walking" }, { "gym", "bi-heart-pulse" },
+        { "cau-long", "bi-feather" }, { "phu-kien", "bi-bag-heart" } };
 }
+<link href="~/Content/css/home.css" rel="stylesheet" />
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+<div class="wrap py-4">
+
+    <div id="heroSlider" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="hero-slide hero-1">
+                    <div class="hero-content">
+                        <span class="hero-tag">🔥 Bộ sưu tập mới</span>
+                        <h1>Trang bị cho mọi buổi tập</h1>
+                        <p>Giày, quần áo và dụng cụ thể thao chính hãng cho bóng đá, chạy bộ, gym và cầu lông.</p>
+                        <a class="btn btn-white me-2" href="@Url.Action("Index", "Product")">Mua ngay <i class="bi bi-arrow-right"></i></a>
+                        <a class="btn btn-ghost" href="#danhmuc">Xem danh mục</a>
+                    </div>
+                    <div class="hero-art">
+                        <div class="hero-ring"><i class="bi bi-lightning-charge-fill"></i></div>
+                        <span class="hero-chip chip-a"><i class="bi bi-tag-fill"></i> Giảm đến 20%</span>
+                        <span class="hero-chip chip-b"><i class="bi bi-truck"></i> Miễn phí giao hàng</span>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-slide hero-2">
+                    <div class="hero-content">
+                        <span class="hero-tag">🎁 Ưu đãi hôm nay</span>
+                        <h1>Giảm 10% cho đơn từ 500K</h1>
+                        <p>Nhập mã <b>SPORT10</b> ở bước thanh toán để nhận ưu đãi cho mọi sản phẩm.</p>
+                        <a class="btn btn-white" href="@Url.Action("Index", "Product")">Khám phá ngay</a>
+                    </div>
+                    <div class="hero-art">
+                        <div class="hero-ring"><i class="bi bi-ticket-perforated-fill"></i></div>
+                        <span class="hero-chip chip-a"><i class="bi bi-percent"></i> SPORT10</span>
+                        <span class="hero-chip chip-b"><i class="bi bi-stars"></i> Số lượng có hạn</span>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-slide hero-3">
+                    <div class="hero-content">
+                        <span class="hero-tag">⚡ Bán chạy nhất</span>
+                        <h1>Chạy bộ êm chân, bền sức</h1>
+                        <p>Những mẫu giày được khách hàng chọn nhiều nhất tuần này.</p>
+                        <a class="btn btn-white" href="@Url.Action("Index", "Product")">Xem sản phẩm</a>
+                    </div>
+                    <div class="hero-art">
+                        <div class="hero-ring"><i class="bi bi-person-walking"></i></div>
+                        <span class="hero-chip chip-a"><i class="bi bi-star-fill"></i> 4.9 / 5 đánh giá</span>
+                        <span class="hero-chip chip-b"><i class="bi bi-fire"></i> Bán chạy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="benefits">
+        <div class="benefit"><i class="bi bi-patch-check-fill"></i><div><b>Chính hãng 100%</b><small>Cam kết hoàn tiền</small></div></div>
+        <div class="benefit"><i class="bi bi-truck"></i><div><b>Giao hàng nhanh</b><small>Toàn quốc 2–4 ngày</small></div></div>
+        <div class="benefit"><i class="bi bi-arrow-repeat"></i><div><b>Đổi trả 7 ngày</b><small>Không cần lý do</small></div></div>
+        <div class="benefit"><i class="bi bi-headset"></i><div><b>Hỗ trợ 24/7</b><small>Tư vấn tận tình</small></div></div>
+    </div>
+
+    <section class="sec" id="danhmuc">
+        <div class="sec-head"><h2>Danh mục nổi bật</h2><a href="@Url.Action("Index", "Product")">Xem tất cả →</a></div>
+        <div class="cat-grid">
+            @foreach (var c in Model.Categories)
+            {
+                var ic = icons.ContainsKey(c.Slug ?? "") ? icons[c.Slug] : "bi-trophy";
+                <a class="cat-card" href="@Url.Action("Index", "Product", new { category = c.Id })"><i class="bi @ic"></i><b>@c.Name</b></a>
+            }
+        </div>
     </section>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
-    </div>
-</main>
+    <section class="sec">
+        <div class="sec-head"><h2>Sản phẩm mới</h2><a href="@Url.Action("Index", "Product")">Xem thêm →</a></div>
+        <div class="p-grid">@foreach (var p in Model.NewProducts)
+        {@Html.Partial("_ProductCard", p)}</div>
+    </section>
+
+    <section class="sec">
+        <div class="sec-head"><h2>Bán chạy nhất</h2><a href="@Url.Action("Index", "Product")">Xem thêm →</a></div>
+        <div class="p-grid">@foreach (var p in Model.BestSellers)
+        {@Html.Partial("_ProductCard", p)}</div>
+    </section>
+
+    <section class="sec">
+        <div class="promo">
+            <div><h3>Ưu đãi dành riêng cho bạn</h3><span>Giảm 10% cho đơn từ 500.000 ₫, áp dụng toàn bộ cửa hàng.</span></div>
+            <div class="code">SPORT10</div>
+        </div>
+    </section>
+
+    <section class="sec mb-5">
+        <div class="sec-head"><h2>Đang khuyến mãi</h2><a href="@Url.Action("Index", "Product")">Xem thêm →</a></div>
+        <div class="p-grid">@foreach (var p in Model.SaleProducts)
+        {@Html.Partial("_ProductCard", p)}</div>
+    </section>
+</div>
