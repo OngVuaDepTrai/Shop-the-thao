@@ -8,11 +8,11 @@
 }
 
 <div class="wrap py-4">
-    <!-- Breadcrumb -->
+    <!-- Horizontal Editorial Breadcrumb -->
     <nav class="sport-breadcrumb" aria-label="breadcrumb">
         <ol>
-            <li><a href="@Url.Action("Index", "Home")"><i class="bi bi-house-door me-1"></i>Trang chủ</a></li>
-            <li><a href="@Url.Action("Index", "Product")">Sản phẩm</a></li>
+            <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+            <li><a href="@Url.Action("Index", "Product")">Bộ sưu tập</a></li>
             @if (Model.Product.Category != null)
             {
                 <li><a href="@Url.Action("Index", "Product", new { CategoryId = Model.Product.CategoryId })">@Model.Product.Category.Name</a></li>
@@ -23,17 +23,16 @@
 
     <!-- Main Product Layout (2 Columns) -->
     <div class="row g-4 g-lg-5 mb-5">
-        <!-- Col Left: Gallery Showcase -->
+        <!-- Col Left: Studio Gallery Showcase -->
         <div class="col-lg-6">
             <div class="product-gallery-main">
                 <img id="mainProductImage" src="@mainImg" alt="@Model.Product.Name" />
                 @if (onSale)
                 {
-                    <span class="p-badge">-@(100 - (int)(Model.Product.SalePrice.Value * 100 / Model.Product.Price))% OFF</span>
+                    <span class="p-badge">Ưu đãi -@(100 - (int)(Model.Product.SalePrice.Value * 100 / Model.Product.Price))%</span>
                 }
             </div>
 
-            <!-- Thumbnail Carousel / Strip -->
             @if (Model.GalleryImages.Count > 1)
             {
                 <div class="gallery-thumbs">
@@ -50,55 +49,47 @@
 
         <!-- Col Right: Product Info & Purchase Options -->
         <div class="col-lg-6">
-            <div class="d-flex align-items-center gap-2 mb-2">
-                @if (Model.Product.Category != null)
-                {
-                    <span class="badge bg-orange-light text-orange fw-bold px-3 py-2 rounded-pill">
-                        @Model.Product.Category.Name
-                    </span>
-                }
-                @if (Model.Product.Brand != null)
-                {
-                    <span class="badge bg-surface border text-muted fw-bold px-3 py-2 rounded-pill">
-                        @Model.Product.Brand.Name
-                    </span>
-                }
-                <span class="text-muted ms-auto small">Mã SP: <strong>@(Model.Product.Code ?? "SP" + Model.Product.Id)</strong></span>
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="eyebrow mb-0">
+                    @(Model.Product.Category != null ? Model.Product.Category.Name : "Thể thao")
+                    @(Model.Product.Brand != null ? " • " + Model.Product.Brand.Name : "")
+                </span>
+                <span class="text-muted small">Mã SP: <strong class="text-dark">@(Model.Product.Code ?? "SP" + Model.Product.Id)</strong></span>
             </div>
 
-            <h1 class="fw-bold mb-3" style="font-size: clamp(1.6rem, 2.8vw, 2.2rem); line-height: 1.25;">
+            <h1 class="editorial-heading mb-3" style="font-size: clamp(1.85rem, 3vw, 2.5rem);">
                 @Model.Product.Name
             </h1>
 
             <!-- Ratings & Sold Count -->
-            <div class="d-flex align-items-center gap-3 mb-3">
-                <div class="d-flex align-items-center gap-1 text-warning">
+            <div class="d-flex align-items-center gap-3 mb-2 small">
+                <div class="d-flex align-items-center gap-1">
                     @for (int i = 1; i <= 5; i++)
                     {
                         <i class="bi @(i <= Math.Round(Model.AverageRating) ? "bi-star-fill text-warning" : "bi-star text-muted opacity-50")"></i>
                     }
-                    <span class="fw-bold text-dark ms-1">@Model.AverageRating</span>
+                    <span class="fw-semibold text-dark ms-1">@Model.AverageRating</span>
                 </div>
-                <span class="text-muted">|</span>
-                <span class="text-muted"><strong>@Model.TotalReviews</strong> đánh giá</span>
-                <span class="text-muted">|</span>
-                <span class="text-muted">Đã bán <strong>@Model.Product.SoldCount</strong></span>
+                <span class="text-muted">•</span>
+                <span class="text-muted">@Model.TotalReviews đánh giá</span>
+                <span class="text-muted">•</span>
+                <span class="text-muted">Đã bán @Model.Product.SoldCount</span>
             </div>
 
             <!-- Price Box -->
             <div class="detail-price-box">
-                <div class="d-flex align-items-baseline">
+                <div class="d-flex align-items-baseline flex-wrap">
                     <span class="detail-price-main">@nowPrice.ToString("N0", vn) ₫</span>
                     @if (onSale)
                     {
                         <span class="detail-price-old">@Model.Product.Price.ToString("N0", vn) ₫</span>
-                        <span class="badge bg-danger ms-2 px-2 py-1">Tiết kiệm @((Model.Product.Price - Model.Product.SalePrice.Value).ToString("N0", vn)) ₫</span>
+                        <span class="price-save-tag">Tiết kiệm @((Model.Product.Price - Model.Product.SalePrice.Value).ToString("N0", vn)) ₫</span>
                     }
                 </div>
-                <small class="text-muted d-block mt-1">Đã bao gồm thuế VAT - Miễn phí vận chuyển cho đơn từ 500K</small>
+                <small class="text-muted d-block mt-1">Giá đã bao gồm VAT • Miễn phí vận chuyển cho đơn hàng từ 500.000₫</small>
             </div>
 
-            <!-- Form Thêm Giỏ Hàng & Mua Hàng (Sẵn sàng kết nối với Thanh) -->
+            <!-- Form Thêm Giỏ Hàng & Mua Hàng -->
             <form action="@Url.Action("Add", "Cart")" method="post" id="addToCartForm">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="productId" value="@Model.Product.Id" />
@@ -108,11 +99,11 @@
                 <!-- 1. Kích thước (Size) -->
                 @if (Model.Sizes != null && Model.Sizes.Any())
                 {
-                    <div class="mb-3">
-                        <label class="form-label d-flex justify-content-between align-items-center">
-                            <span>Chọn kích cỡ (Size):</span>
-                            <a href="#sizeGuideModal" data-bs-toggle="modal" class="text-orange small fw-bold"><i class="bi bi-rulers me-1"></i>Bảng size chuẩn</a>
-                        </label>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="small fw-semibold text-uppercase" style="letter-spacing: 0.06em;">Kích cỡ (Size)</span>
+                            <a href="#sizeGuideModal" data-bs-toggle="modal" class="small text-muted text-decoration-underline">Bảng quy đổi kích cỡ</a>
+                        </div>
                         <div class="size-picker">
                             @for (int i = 0; i < Model.Sizes.Count; i++)
                             {
@@ -125,16 +116,16 @@
                     </div>
                 }
 
-                <!-- 2. Màu sắc (nếu có) -->
+                <!-- 2. Màu sắc -->
                 @if (Model.Colors != null && Model.Colors.Any())
                 {
-                    <div class="mb-3">
-                        <label class="form-label">Chọn màu sắc:</label>
+                    <div class="mb-4">
+                        <div class="small fw-semibold text-uppercase mb-2" style="letter-spacing: 0.06em;">Phối màu</div>
                         <div class="d-flex flex-wrap gap-2 color-picker">
                             @for (int i = 0; i < Model.Colors.Count; i++)
                             {
                                 var c = Model.Colors[i];
-                                <div class="btn btn-sm btn-outline-secondary color-pill @(i == 0 ? "active" : "")" data-color="@c">
+                                <div class="color-pill @(i == 0 ? "active" : "")" data-color="@c">
                                     @c
                                 </div>
                             }
@@ -142,56 +133,56 @@
                     </div>
                 }
 
-                <!-- 3. Số lượng & Nút Mua -->
+                <!-- 3. Số lượng -->
                 <div class="mb-4">
-                    <label class="form-label">Số lượng:</label>
+                    <div class="small fw-semibold text-uppercase mb-2" style="letter-spacing: 0.06em;">Số lượng</div>
                     <div class="d-flex align-items-center gap-3">
                         <div class="qty-control">
-                            <button type="button" class="qty-btn qty-minus"><i class="bi bi-dash"></i></button>
-                            <input type="number" name="quantity" class="qty-input" value="1" min="1" max="99" />
-                            <button type="button" class="qty-btn qty-plus"><i class="bi bi-plus"></i></button>
+                            <button type="button" class="qty-btn qty-minus" aria-label="Giảm"><i class="bi bi-dash"></i></button>
+                            <input type="number" name="quantity" class="qty-input" value="1" min="1" max="99" aria-label="Số lượng" />
+                            <button type="button" class="qty-btn qty-plus" aria-label="Tăng"><i class="bi bi-plus"></i></button>
                         </div>
-                        <span class="text-muted small">
-                            <i class="bi bi-check-circle-fill text-success me-1"></i>Còn hàng sẵn trong kho
-                        </span>
+                        <span class="text-muted small">Sẵn sàng giao ngay</span>
                     </div>
                 </div>
 
                 <!-- Action CTA Buttons -->
                 <div class="d-flex flex-wrap gap-3 mb-4">
-                    <button type="submit" class="btn btn-outline-orange flex-grow-1 py-3 fs-6">
-                        <i class="bi bi-cart-plus fs-5"></i> Thêm vào giỏ hàng
+                    <button type="submit" class="btn-outline-orange flex-grow-1 py-3">
+                        <i class="bi bi-bag-plus"></i>
+                        <span>Thêm vào giỏ hàng</span>
                     </button>
-                    <button type="submit" name="buyNow" value="true" class="btn btn-orange flex-grow-1 py-3 fs-6">
-                        <i class="bi bi-lightning-fill"></i> Mua ngay
+                    <button type="submit" name="buyNow" value="true" class="btn-orange flex-grow-1 py-3">
+                        <span>Mua ngay</span>
+                        <i class="bi bi-arrow-up-right"></i>
                     </button>
-                    <a href="@Url.Action("Add", "Wishlist", new { productId = Model.Product.Id })" class="action-icon-btn" style="width: 52px; height: 52px;" title="Thêm vào yêu thích">
-                        <i class="bi bi-heart fs-4"></i>
+                    <a href="@Url.Action("Add", "Wishlist", new { productId = Model.Product.Id })" class="action-icon-btn" style="width: 48px; height: 48px;" title="Lưu vào yêu thích" aria-label="Lưu vào yêu thích">
+                        <i class="bi bi-heart"></i>
                     </a>
                 </div>
             </form>
 
-            <!-- Trust / Cam kết dịch vụ SportHub -->
+            <!-- Trust Commitments -->
             <div class="trust-badges-box">
                 <div class="trust-item">
-                    <i class="bi bi-truck text-orange"></i>
+                    <i class="bi bi-shield-check"></i>
                     <div>
-                        <b>Giao hàng toàn quốc siêu tốc</b>
-                        <small>Nhận hàng kiểm tra trước khi thanh toán</small>
+                        <b>Bảo chứng chính hãng 100%</b>
+                        <small>Mỗi sản phẩm đều đi kèm hộp nguyên bản, tem kiểm định và phiếu bảo hành.</small>
                     </div>
                 </div>
                 <div class="trust-item">
-                    <i class="bi bi-arrow-repeat text-orange"></i>
+                    <i class="bi bi-arrow-left-right"></i>
                     <div>
-                        <b>Đổi trả linh hoạt trong 7 ngày</b>
-                        <small>Đổi size miễn phí tận nhà nếu mang không vừa</small>
+                        <b>Đổi size tận nơi trong 7 ngày</b>
+                        <small>Hỗ trợ đổi kích cỡ nhanh chóng nếu phom giày hoặc trang phục chưa vừa vặn.</small>
                     </div>
                 </div>
                 <div class="trust-item">
-                    <i class="bi bi-shield-check text-orange"></i>
+                    <i class="bi bi-truck"></i>
                     <div>
-                        <b>Cam kết 100% chính hãng</b>
-                        <small>Phát hiện hàng giả bồi thường gấp 10 lần giá trị</small>
+                        <b>Vận chuyển tiêu chuẩn toàn quốc</b>
+                        <small>Kiểm tra ngoại quan sản phẩm trước khi thanh toán khi nhận hàng.</small>
                     </div>
                 </div>
             </div>
@@ -199,84 +190,91 @@
     </div>
 
     <!-- Product Tabs: Description, Specs, Reviews -->
-    <div class="card bg-surface border-0 shadow-sm rounded-4 p-4 mb-5" style="border: 1px solid var(--line-border) !important;">
+    <div class="bg-surface border rounded-3 p-4 p-lg-5 mb-5" style="border-color: var(--line-border) !important;">
         <ul class="nav nav-tabs sport-tabs" id="productTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab">
-                    Mô tả sản phẩm
+                    Mô tả chi tiết
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specs" type="button" role="tab">
-                    Thông số & Hướng dẫn
+                    Thông số &amp; Bảo quản
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
-                    Đánh giá & Bình luận (@Model.TotalReviews)
+                    Đánh giá (@Model.TotalReviews)
                 </button>
             </li>
         </ul>
 
-        <div class="tab-content pt-3" id="productTabsContent">
+        <div class="tab-content pt-4" id="productTabsContent">
             <!-- Tab 1: Mô tả -->
             <div class="tab-pane fade show active" id="desc" role="tabpanel">
-                <div style="line-height: 1.8; color: var(--text);">
+                <div style="max-width: 760px; line-height: 1.85; color: var(--text);">
                     @if (!string.IsNullOrEmpty(Model.Product.Description))
                     {
-                        <p style="white-space: pre-line;">@Model.Product.Description</p>
+                        <p class="mb-0" style="white-space: pre-line;">@Model.Product.Description</p>
                     }
                     else
                     {
-                        <p>Sản phẩm thể thao cao cấp chính hãng từ SportHub. Thiết kế tối ưu cho các vận động viên và người yêu thể thao, mang lại sự êm ái, thoáng khí và hỗ trợ vận động tối đa.</p>
+                        <p class="mb-0">Thiết kế thể thao hiệu năng cao từ SportHub, kết hợp chất liệu thoáng khí và cấu trúc nâng đỡ chuẩn xác cho từng chuyển động.</p>
                     }
                 </div>
             </div>
 
             <!-- Tab 2: Thông số -->
             <div class="tab-pane fade" id="specs" role="tabpanel">
-                <div class="row">
+                <div class="row g-4">
                     <div class="col-md-6">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered mb-0" style="border-color: var(--line-border);">
                             <tbody>
-                                <tr><th style="width: 40%;">Mã sản phẩm</th><td>@(Model.Product.Code ?? "SP" + Model.Product.Id)</td></tr>
-                                <tr><th>Thương hiệu</th><td>@(Model.Product.Brand != null ? Model.Product.Brand.Name : "SportHub")</td></tr>
-                                <tr><th>Danh mục</th><td>@(Model.Product.Category != null ? Model.Product.Category.Name : "Thể thao")</td></tr>
-                                <tr><th>Tình trạng</th><td>Mới 100%, nguyên hộp / tag</td></tr>
+                                <tr><th class="bg-stone fw-semibold" style="width: 38%;">Mã định danh</th><td>@(Model.Product.Code ?? "SP" + Model.Product.Id)</td></tr>
+                                <tr><th class="bg-stone fw-semibold">Thương hiệu</th><td>@(Model.Product.Brand != null ? Model.Product.Brand.Name : "SportHub")</td></tr>
+                                <tr><th class="bg-stone fw-semibold">Bộ môn</th><td>@(Model.Product.Category != null ? Model.Product.Category.Name : "Thể thao")</td></tr>
+                                <tr><th class="bg-stone fw-semibold">Quy cách</th><td>Fullbox nguyên tem chính hãng</td></tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-semibold mb-2">Hướng dẫn bảo quản</h6>
+                        <ul class="text-muted small mb-0" style="line-height: 1.8;">
+                            <li>Vệ sinh bề mặt bằng khăn ẩm mềm hoặc dung dịch chuyên dụng.</li>
+                            <li>Phơi nơi khô thoáng tự nhiên, tránh ánh nắng gắt trực tiếp.</li>
+                            <li>Bảo quản nơi thoáng mát, sử dụng giấy giữ phom khi không sử dụng.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab 3: Đánh giá & Nhận xét -->
+            <!-- Tab 3: Đánh giá -->
             <div class="tab-pane fade" id="reviews" role="tabpanel">
-                <!-- Submit Review Form -->
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <div class="p-3 bg-orange-subtle border rounded-3 mb-4" style="border-color: var(--line-border) !important;">
-                        <h6 class="fw-bold mb-3"><i class="bi bi-pencil-square text-orange me-1"></i>Viết đánh giá của bạn</h6>
+                    <div class="p-4 bg-stone rounded-3 mb-4">
+                        <h6 class="fw-semibold mb-3">Chia sẻ trải nghiệm của bạn</h6>
                         @using (Html.BeginForm("AddReview", "Product", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="productId" value="@Model.Product.Id" />
                             <div class="row g-3">
                                 <div class="col-md-3">
-                                    <label class="form-label small">Số sao đánh giá:</label>
+                                    <label class="form-label small text-muted">Mức độ hài lòng</label>
                                     <select name="rating" class="form-select form-select-sm">
-                                        <option value="5">5 sao - Tuyệt vời</option>
-                                        <option value="4">4 sao - Tốt</option>
-                                        <option value="3">3 sao - Bình thường</option>
-                                        <option value="2">2 sao - Chưa hài lòng</option>
-                                        <option value="1">1 sao - Rất tệ</option>
+                                        <option value="5">5 sao — Tuyệt vời</option>
+                                        <option value="4">4 sao — Rất tốt</option>
+                                        <option value="3">3 sao — Hài lòng</option>
+                                        <option value="2">2 sao — Tạm ổn</option>
+                                        <option value="1">1 sao — Chưa đạt kỳ vọng</option>
                                     </select>
                                 </div>
                                 <div class="col-md-9">
-                                    <label class="form-label small">Nhận xét chi tiết:</label>
-                                    <input type="text" name="comment" class="form-control form-control-sm" placeholder="Chia sẻ cảm nhận về chất lượng, form dáng, độ êm..." required />
+                                    <label class="form-label small text-muted">Nhận xét thực tế</label>
+                                    <input type="text" name="comment" class="form-control form-control-sm" placeholder="Chia sẻ cảm nhận về chất liệu, độ êm và phom dáng..." required />
                                 </div>
                                 <div class="col-12 text-end">
-                                    <button type="submit" class="btn btn-orange btn-sm">Gửi đánh giá</button>
+                                    <button type="submit" class="btn-orange py-2 px-4" style="font-size: 0.84rem;">Gửi đánh giá</button>
                                 </div>
                             </div>
                         }
@@ -285,12 +283,11 @@
                 else
                 {
                     <div class="alert alert-orange mb-4">
-                        <i class="bi bi-info-circle-fill"></i>
-                        <span>Vui lòng <a href="@Url.Action("Login", "Account")" class="fw-bold text-decoration-underline">Đăng nhập</a> để gửi đánh giá cho sản phẩm này.</span>
+                        <i class="bi bi-person-check"></i>
+                        <span>Vui lòng <a href="@Url.Action("Login", "Account")" class="fw-semibold text-decoration-underline">đăng nhập</a> để gửi nhận xét về sản phẩm này.</span>
                     </div>
                 }
 
-                <!-- Review list -->
                 @if (Model.Reviews != null && Model.Reviews.Any())
                 {
                     <div class="d-flex flex-column gap-3">
@@ -298,23 +295,23 @@
                         {
                             <div class="p-3 border rounded-3 bg-surface" style="border-color: var(--line-border) !important;">
                                 <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <span class="fw-bold">@(r.User != null ? r.User.FullName : "Khách hàng SportHub")</span>
+                                    <span class="fw-semibold">@(r.User != null ? r.User.FullName : "Khách hàng SportHub")</span>
                                     <small class="text-muted">@r.CreatedAt.ToString("dd/MM/yyyy")</small>
                                 </div>
-                                <div class="text-warning mb-2">
+                                <div class="text-warning small mb-2">
                                     @for (int i = 1; i <= 5; i++)
                                     {
                                         <i class="bi @(i <= r.Rating ? "bi-star-fill" : "bi-star text-muted opacity-25")"></i>
                                     }
                                 </div>
-                                <p class="mb-0 text-dark">@r.Comment</p>
+                                <p class="mb-0 small text-dark">@r.Comment</p>
                             </div>
                         }
                     </div>
                 }
                 else
                 {
-                    <p class="text-muted text-center py-4">Chưa có đánh giá nào cho sản phẩm này. Hãy là người đầu tiên trải nghiệm và để lại nhận xét!</p>
+                    <p class="text-muted py-3 mb-0">Chưa có nhận xét nào. Hãy là người đầu tiên chia sẻ cảm nhận về thiết kế này.</p>
                 }
             </div>
         </div>
@@ -326,11 +323,11 @@
         <div class="mt-5">
             <div class="d-flex justify-content-between align-items-end mb-4">
                 <div>
-                    <h3 class="fw-bold mb-1">Sản phẩm liên quan</h3>
-                    <small class="text-muted">Có thể bạn cũng sẽ thích những sản phẩm cùng phong cách</small>
+                    <span class="eyebrow">GỢI Ý CÙNG BỘ SƯU TẬP</span>
+                    <h3 class="editorial-heading mb-0" style="font-size: 1.75rem;">Thiết kế đồng điệu</h3>
                 </div>
-                <a href="@Url.Action("Index", "Product", new { CategoryId = Model.Product.CategoryId })" class="text-orange fw-bold">
-                    Xem tất cả <i class="bi bi-arrow-right"></i>
+                <a href="@Url.Action("Index", "Product", new { CategoryId = Model.Product.CategoryId })" class="small fw-semibold text-uppercase" style="letter-spacing: 0.1em;">
+                    Xem toàn bộ <i class="bi bi-arrow-up-right"></i>
                 </a>
             </div>
 
@@ -349,28 +346,27 @@
 <!-- Size Guide Modal -->
 <div class="modal fade" id="sizeGuideModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content rounded-4 border-0">
+        <div class="modal-content rounded-3 border-0">
             <div class="modal-header border-bottom">
-                <h5 class="modal-title fw-bold"><i class="bi bi-rulers text-orange me-2"></i>Bảng Hướng Dẫn Chọn Size Thể Thao</h5>
+                <h5 class="modal-title editorial-heading">Bảng Quy Đổi Kích Cỡ Tiêu Chuẩn</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-                <h6 class="fw-bold text-orange">1. Bảng size giày thể thao (Nam/Nữ)</h6>
+                <h6 class="fw-semibold mb-2">1. Kích cỡ giày thể thao (VN / EU)</h6>
                 <table class="table table-bordered text-center align-middle small mb-4">
-                    <thead class="table-light"><tr><th>Size VN/EU</th><th>39</th><th>40</th><th>41</th><th>42</th><th>43</th><th>44</th></tr></thead>
-                    <tbody><tr><td>Chiều dài chân (cm)</td><td>24.5</td><td>25.0</td><td>25.5</td><td>26.0</td><td>26.5</td><td>27.0</td></tr></tbody>
+                    <thead class="bg-stone"><tr><th>Size EU</th><th>39</th><th>40</th><th>41</th><th>42</th><th>43</th><th>44</th></tr></thead>
+                    <tbody><tr><td>Chiều dài bàn chân (cm)</td><td>24.5</td><td>25.0</td><td>25.5</td><td>26.0</td><td>26.5</td><td>27.0</td></tr></tbody>
                 </table>
 
-                <h6 class="fw-bold text-orange">2. Bảng size quần áo thể thao</h6>
-                <table class="table table-bordered text-center align-middle small">
-                    <thead class="table-light"><tr><th>Size</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr></thead>
+                <h6 class="fw-semibold mb-2">2. Kích cỡ trang phục thể thao</h6>
+                <table class="table table-bordered text-center align-middle small mb-0">
+                    <thead class="bg-stone"><tr><th>Size</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr></thead>
                     <tbody>
-                        <tr><td>Chiều cao (cm)</td><td>155 - 165</td><td>165 - 170</td><td>170 - 175</td><td>175 - 180</td><td>180 - 188</td></tr>
-                        <tr><td>Cân nặng (kg)</td><td>48 - 56</td><td>57 - 65</td><td>66 - 74</td><td>75 - 82</td><td>83 - 90</td></tr>
+                        <tr><td>Chiều cao (cm)</td><td>155 – 165</td><td>165 – 170</td><td>170 – 175</td><td>175 – 180</td><td>180 – 188</td></tr>
+                        <tr><td>Cân nặng (kg)</td><td>48 – 56</td><td>57 – 65</td><td>66 – 74</td><td>75 – 82</td><td>83 – 90</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-

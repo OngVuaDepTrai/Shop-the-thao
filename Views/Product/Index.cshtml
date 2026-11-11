@@ -7,8 +7,8 @@
     <!-- Breadcrumb -->
     <nav class="sport-breadcrumb" aria-label="breadcrumb">
         <ol>
-            <li><a href="@Url.Action("Index", "Home")"><i class="bi bi-house-door me-1"></i>Trang chủ</a></li>
-            <li><a href="@Url.Action("Index", "Product")">Sản phẩm</a></li>
+            <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+            <li><a href="@Url.Action("Index", "Product")">Bộ sưu tập</a></li>
             @if (!string.IsNullOrEmpty(Model.SelectedCategoryName))
             {
                 <li class="active">@Model.SelectedCategoryName</li>
@@ -23,20 +23,18 @@
     <!-- Page Header Banner -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--line-border) !important;">
         <div>
-            <span class="text-orange fw-bold text-uppercase" style="letter-spacing: 0.08em; font-size: 0.85rem;">
-                <i class="bi bi-shield-check me-1"></i> 100% Chính Hãng
-            </span>
-            <h1 class="fw-bold mb-1" style="font-size: clamp(1.8rem, 3vw, 2.4rem);">
+            <span class="eyebrow">TUYỂN CHỌN CHÍNH HÃNG</span>
+            <h1 class="editorial-heading mb-1" style="font-size: clamp(1.9rem, 3vw, 2.5rem);">
                 @(string.IsNullOrEmpty(Model.SelectedCategoryName) ? "Bộ Sưu Tập Thể Thao" : Model.SelectedCategoryName)
             </h1>
-            <p class="text-muted mb-0">Tìm thấy <strong>@Model.TotalItems</strong> sản phẩm chất lượng cao</p>
+            <p class="text-muted small mb-0">Hiển thị <strong class="text-dark">@Model.TotalItems</strong> thiết kế</p>
         </div>
 
         <!-- Sort Control -->
         <div class="d-flex align-items-center gap-2">
             <!-- Mobile filter toggle button -->
-            <button class="btn btn-outline-orange d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas">
-                <i class="bi bi-funnel"></i> Bộ lọc
+            <button class="btn-outline-orange py-2 px-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas">
+                <i class="bi bi-sliders"></i> Bộ lọc
             </button>
 
             <form method="get" action="@Url.Action("Index", "Product")" class="d-flex align-items-center gap-2 m-0" id="sortForm">
@@ -48,9 +46,9 @@
                 @if (!string.IsNullOrEmpty(Model.Size)) { <input type="hidden" name="Size" value="@Model.Size" /> }
                 @if (Model.OnSale.HasValue && Model.OnSale.Value) { <input type="hidden" name="OnSale" value="true" /> }
 
-                <label class="text-muted fw-semibold small text-nowrap d-none d-sm-inline" for="sortSelect">Sắp xếp:</label>
-                <select name="SortBy" id="sortSelect" class="form-select form-select-sm" style="min-width: 170px;" onchange="document.getElementById('sortForm').submit()">
-                    <option value="newest" @(Model.SortBy == "newest" ? "selected" : "")>Mới nhất</option>
+                <label class="text-muted small text-nowrap d-none d-sm-inline" for="sortSelect">Sắp xếp:</label>
+                <select name="SortBy" id="sortSelect" class="form-select form-select-sm rounded-pill px-3" style="min-width: 175px; border-color: var(--line-border);" onchange="document.getElementById('sortForm').submit()">
+                    <option value="newest" @(Model.SortBy == "newest" ? "selected" : "")>Mới ra mắt</option>
                     <option value="best_seller" @(Model.SortBy == "best_seller" ? "selected" : "")>Bán chạy nhất</option>
                     <option value="price_asc" @(Model.SortBy == "price_asc" ? "selected" : "")>Giá: Thấp đến cao</option>
                     <option value="price_desc" @(Model.SortBy == "price_desc" ? "selected" : "")>Giá: Cao đến thấp</option>
@@ -64,10 +62,10 @@
         <aside class="col-lg-3 d-none d-lg-block">
             <div class="filter-card">
                 <div class="filter-title">
-                    <span><i class="bi bi-funnel text-orange me-2"></i>Bộ lọc tìm kiếm</span>
+                    <span>Bộ lọc</span>
                     @if (Model.CategoryId.HasValue || Model.BrandId.HasValue || Model.MinPrice.HasValue || Model.MaxPrice.HasValue || !string.IsNullOrEmpty(Model.Size) || Model.OnSale == true || !string.IsNullOrEmpty(Model.q))
                     {
-                        <a href="@Url.Action("Index", "Product")" class="text-danger small fw-bold">Xóa lọc</a>
+                        <a href="@Url.Action("Index", "Product")" class="text-orange small fw-medium" style="text-transform: none; letter-spacing: 0;">Đặt lại</a>
                     }
                 </div>
 

@@ -1,120 +1,111 @@
 ﻿@using ShopTheThao.Helpers
 
-<!-- Top Notification Bar (Clean, Minimal, Professional) -->
+<!-- Top Editorial Bar -->
 <div class="top-notice-bar d-none d-md-block">
     <div class="wrap d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-warning text-dark fw-bold px-2 py-0.5 rounded-1" style="font-size: 0.72rem;">ƯU ĐÃI</span>
-            <span>Miễn phí vận chuyển cho đơn hàng từ 500.000₫ • Đổi trả tận nơi 7 ngày</span>
+        <div>
+            <span>MIỄN PHÍ GIAO HÀNG ĐƠN TỪ 500.000₫ &nbsp;•&nbsp; ĐỔI SIZE TẬN NƠI 7 NGÀY</span>
         </div>
-        <div class="d-flex align-items-center gap-4 text-white-50" style="font-size: 0.8rem;">
-            <span><i class="bi bi-telephone text-warning me-1"></i> Hotline: <strong class="text-white">1900 6868</strong></span>
-            <span><i class="bi bi-clock me-1"></i> 8:00 - 22:00</span>
+        <div class="d-flex align-items-center gap-4">
+            <span>Hotline: <strong class="text-white fw-normal">1900 6868</strong></span>
+            <span>Showroom: 8:00 – 22:00</span>
         </div>
     </div>
 </div>
 
 <!-- Main Sticky Header -->
 <header class="main-header">
-    <div class="wrap py-2 py-lg-3">
+    <div class="wrap py-3">
         <div class="d-flex align-items-center justify-content-between gap-3">
-            <!-- Mobile Menu Toggle Button -->
-            <button class="btn btn-link text-dark p-0 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileNav" aria-controls="mobileNav">
-                <i class="bi bi-list fs-2 text-dark"></i>
+            <!-- Mobile Menu Toggle -->
+            <button class="btn btn-link text-dark p-0 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileNav" aria-controls="mobileNav" aria-label="Menu">
+                <i class="bi bi-list fs-3"></i>
             </button>
 
             <!-- Brand Logo -->
             <a class="brand-logo" href="@Url.Action("Index", "Home")">
-                <span class="d-inline-flex align-items-center justify-content-center bg-dark text-white rounded-2 me-1" style="width: 32px; height: 32px;">
-                    <i class="bi bi-lightning-charge-fill text-warning fs-5"></i>
-                </span>
-                <span class="fw-bold tracking-tight text-dark">Sport<span class="text-orange">Hub</span></span>
+                <span>SPORTHUB</span><span class="brand-logo-dot"></span>
             </a>
 
-            <!-- Desktop Navigation Links -->
-            <nav class="d-none d-lg-flex align-items-center gap-1 header-nav">
-                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" 
+            <!-- Desktop Navigation -->
+            <nav class="d-none d-lg-flex header-nav">
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
                    href="@Url.Action("Index", "Home")">
                     Trang chủ
                 </a>
-                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Product" && Request.QueryString["onSale"] == null ? "active" : "")" 
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Product" && Request.QueryString["onSale"] == null ? "active" : "")"
                    href="@Url.Action("Index", "Product")">
-                    Sản phẩm
+                    Bộ sưu tập
                 </a>
-                <a class="nav-link @(Request.QueryString["onSale"] != null ? "active" : "")" 
+                <a class="nav-link @(Request.QueryString["onSale"] != null ? "active" : "")"
                    href="@Url.Action("Index", "Product", new { onSale = true })">
-                    Khuyến mãi
+                    Ưu đãi mùa
                 </a>
-                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")" 
+                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")"
                    href="@Url.Action("About", "Home")">
-                    Giới thiệu
+                    Câu chuyện
                 </a>
-                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Contact" ? "active" : "")" 
+                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Contact" ? "active" : "")"
                    href="@Url.Action("Contact", "Home")">
                     Liên hệ
                 </a>
             </nav>
 
-            <!-- Search Bar (Desktop) -->
-            <div class="header-search d-none d-md-block flex-grow-0">
-                <form action="@Url.Action("Index", "Product")" method="get" class="m-0 position-relative">
-                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-                    <input type="text" name="q" value="@Request.QueryString["q"]" class="form-control rounded-pill ps-5 bg-white border" style="width: 260px; font-size: 0.88rem;" placeholder="Tìm giày, áo, đồ tập..." autocomplete="off" />
-                </form>
-            </div>
+            <!-- Right Actions: Search + Icons + Auth -->
+            <div class="d-flex align-items-center gap-2">
+                <div class="header-search d-none d-md-block position-relative me-1">
+                    <form action="@Url.Action("Index", "Product")" method="get" class="m-0">
+                        <i class="bi bi-search"></i>
+                        <input type="text" name="q" value="@Request.QueryString["q"]" placeholder="Tìm sản phẩm, mã SP..." autocomplete="off" />
+                    </form>
+                </div>
 
-            <!-- Action Buttons (Wishlist, Cart, User) -->
-            <div class="header-actions d-flex align-items-center gap-2">
-                <!-- Search icon for mobile -->
-                <a class="action-icon-btn d-md-none" href="@Url.Action("Index", "Product")" title="Tìm kiếm">
-                    <i class="bi bi-search fs-6"></i>
+                <a class="action-icon-btn d-md-none" href="@Url.Action("Index", "Product")" title="Tìm kiếm" aria-label="Tìm kiếm">
+                    <i class="bi bi-search"></i>
                 </a>
 
-                <!-- Wishlist -->
-                <a class="action-icon-btn d-none d-sm-inline-flex" href="@Url.Action("Index", "Wishlist")" title="Yêu thích">
-                    <i class="bi bi-heart fs-6"></i>
+                <a class="action-icon-btn d-none d-sm-inline-flex" href="@Url.Action("Index", "Wishlist")" title="Yêu thích" aria-label="Yêu thích">
+                    <i class="bi bi-heart"></i>
                 </a>
 
-                <!-- Cart -->
-                <a class="action-icon-btn" href="@Url.Action("Index", "Cart")" title="Giỏ hàng">
-                    <i class="bi bi-bag fs-6"></i>
+                <a class="action-icon-btn" href="@Url.Action("Index", "Cart")" title="Giỏ hàng" aria-label="Giỏ hàng">
+                    <i class="bi bi-bag"></i>
                 </a>
 
-                <!-- User Account Profile / Login -->
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <div class="dropdown">
-                        <button class="btn p-0 border-0 dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="user-chip border rounded-pill px-2 py-1 bg-white">
-                                <span class="user-avatar-circle" style="width: 28px; height: 28px; font-size: 0.75rem;">
+                    <div class="dropdown ms-1">
+                        <button class="btn p-0 border-0 dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="user-chip">
+                                <span class="user-avatar-circle">
                                     @(AuthHelper.FullName(User).Length > 0 ? AuthHelper.FullName(User).Substring(0, 1).ToUpper() : "U")
                                 </span>
-                                <span class="d-none d-sm-inline small fw-semibold">@AuthHelper.FullName(User)</span>
+                                <span class="d-none d-sm-inline">@AuthHelper.FullName(User)</span>
                             </span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border rounded-3 mt-2 p-2">
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border rounded-3 mt-2 p-2" style="border-color: var(--line-border) !important; min-width: 200px;">
                             @if (User.IsInRole("Admin"))
                             {
                                 <li>
-                                    <a class="dropdown-item py-2 fw-semibold text-danger" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">
-                                        <i class="bi bi-speedometer2 me-2"></i>Trang Quản Trị
+                                    <a class="dropdown-item py-2 fw-semibold text-orange" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">
+                                        <i class="bi bi-grid-1x2 me-2"></i>Quản trị hệ thống
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                             }
                             <li>
                                 <a class="dropdown-item py-2 small" href="@Url.Action("Index", "Profile")">
-                                    <i class="bi bi-person me-2 text-orange"></i>Hồ sơ cá nhân
+                                    <i class="bi bi-person me-2 text-muted"></i>Hồ sơ cá nhân
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item py-2 small" href="@Url.Action("History", "Order")">
-                                    <i class="bi bi-box-seam me-2 text-orange"></i>Đơn hàng của tôi
+                                    <i class="bi bi-bag-check me-2 text-muted"></i>Đơn hàng của tôi
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item py-2 small" href="@Url.Action("Index", "Wishlist")">
-                                    <i class="bi bi-heart me-2 text-orange"></i>Yêu thích
+                                    <i class="bi bi-heart me-2 text-muted"></i>Danh sách yêu thích
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
@@ -132,9 +123,9 @@
                 }
                 else
                 {
-                    <div class="d-flex align-items-center gap-2">
-                        <a class="btn btn-sm btn-outline-dark rounded-pill px-3 fw-semibold" href="@Url.Action("Login", "Account")">Đăng nhập</a>
-                        <a class="btn btn-sm btn-orange rounded-pill px-3 d-none d-sm-inline-flex" href="@Url.Action("Register", "Account")">Đăng ký</a>
+                    <div class="d-flex align-items-center gap-2 ms-1">
+                        <a class="btn-outline-orange py-1 px-3" style="font-size: 0.84rem;" href="@Url.Action("Login", "Account")">Đăng nhập</a>
+                        <a class="btn-orange py-1 px-3 d-none d-sm-inline-flex" style="font-size: 0.84rem;" href="@Url.Action("Register", "Account")">Đăng ký</a>
                     </div>
                 }
             </div>
@@ -146,7 +137,7 @@
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileNav" aria-labelledby="mobileNavLabel">
     <div class="offcanvas-header border-bottom">
         <h5 class="offcanvas-title brand-logo" id="mobileNavLabel">
-            Sport<span class="text-orange">Hub</span>
+            <span>SPORTHUB</span><span class="brand-logo-dot"></span>
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -154,42 +145,32 @@
         <form action="@Url.Action("Index", "Product")" method="get" class="mb-4">
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Tìm sản phẩm..." value="@Request.QueryString["q"]">
-                <button class="btn btn-orange" type="submit"><i class="bi bi-search"></i></button>
+                <button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>
             </div>
         </form>
-        <ul class="nav flex-column gap-2 fw-semibold">
+        <ul class="nav flex-column gap-1">
             <li class="nav-item">
-                <a class="nav-link text-dark py-2 px-3 rounded-2" href="@Url.Action("Index", "Home")">
-                    <i class="bi bi-house-door me-2"></i>Trang chủ
-                </a>
+                <a class="nav-link text-dark py-2 px-2 fw-medium" href="@Url.Action("Index", "Home")">Trang chủ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark py-2 px-3 rounded-2" href="@Url.Action("Index", "Product")">
-                    <i class="bi bi-grid me-2"></i>Tất cả sản phẩm
-                </a>
+                <a class="nav-link text-dark py-2 px-2 fw-medium" href="@Url.Action("Index", "Product")">Bộ sưu tập</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-danger py-2 px-3 rounded-2" href="@Url.Action("Index", "Product", new { onSale = true })">
-                    <i class="bi bi-percent me-2"></i>Khuyến mãi
-                </a>
+                <a class="nav-link text-orange py-2 px-2 fw-medium" href="@Url.Action("Index", "Product", new { onSale = true })">Ưu đãi mùa</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark py-2 px-3 rounded-2" href="@Url.Action("About", "Home")">
-                    <i class="bi bi-info-circle me-2"></i>Về SportHub
-                </a>
+                <a class="nav-link text-dark py-2 px-2 fw-medium" href="@Url.Action("About", "Home")">Câu chuyện</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark py-2 px-3 rounded-2" href="@Url.Action("Contact", "Home")">
-                    <i class="bi bi-telephone me-2"></i>Liên hệ
-                </a>
+                <a class="nav-link text-dark py-2 px-2 fw-medium" href="@Url.Action("Contact", "Home")">Liên hệ</a>
             </li>
         </ul>
         <hr />
         @if (!User.Identity.IsAuthenticated)
         {
             <div class="d-grid gap-2 mt-3">
-                <a class="btn btn-outline-dark" href="@Url.Action("Login", "Account")">Đăng nhập</a>
-                <a class="btn btn-orange" href="@Url.Action("Register", "Account")">Tạo tài khoản</a>
+                <a class="btn-outline-orange text-center" href="@Url.Action("Login", "Account")">Đăng nhập</a>
+                <a class="btn-orange text-center" href="@Url.Action("Register", "Account")">Tạo tài khoản</a>
             </div>
         }
     </div>
