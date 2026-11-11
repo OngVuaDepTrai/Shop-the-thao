@@ -2,8 +2,8 @@
 // Client-side interactions & utilities for Nguyễn Minh Tâm's customer views
 
 document.addEventListener('DOMContentLoaded', function () {
-    // 1. Auto dismiss alerts after 5 seconds
-    const alerts = document.querySelectorAll('.alert-dismissible, .alert-orange');
+    // 1. Auto dismiss flash alerts after 5 seconds (static inline notices stay)
+    const alerts = document.querySelectorAll('.alert-dismissible');
     alerts.forEach(function (alert) {
         setTimeout(function () {
             if (alert && alert.parentElement) {

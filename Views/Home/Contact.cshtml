@@ -6,64 +6,39 @@
     <!-- Breadcrumb -->
     <nav class="sport-breadcrumb" aria-label="breadcrumb">
         <ol>
-            <li><a href="@Url.Action("Index", "Home")"><i class="bi bi-house-door me-1"></i>Trang chủ</a></li>
+            <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
             <li class="active">Liên hệ</li>
         </ol>
     </nav>
 
     <!-- Page Header -->
-    <div class="text-center my-4 pb-3">
-        <span class="text-orange text-uppercase fw-bold small" style="letter-spacing: 0.12em;">KẾT NỐI VỚI CHÚNG TÔI</span>
-        <h1 class="editorial-heading mt-2 mb-3" style="font-size: clamp(2rem, 3.5vw, 2.8rem);">
-            Chúng tôi luôn lắng nghe bạn
-        </h1>
-        <p class="text-muted mx-auto" style="max-width: 620px; line-height: 1.8;">
-            Bạn cần tư vấn chọn giày chạy, chọn size đồ tập hay hỗ trợ bảo hành sản phẩm? Hãy gửi lời nhắn cho SportHub hoặc ghé thăm hệ thống showroom trực tiếp.
-        </p>
+    <div class="row g-4 align-items-end mb-4 pb-4 border-bottom" style="border-color: var(--line) !important;">
+        <div class="col-lg-7">
+            <span class="eyebrow">KẾT NỐI VỚI CHÚNG TÔI</span>
+            <h1 class="editorial-heading mb-0" style="font-size: clamp(2rem, 3.5vw, 2.8rem);">Chúng tôi luôn lắng nghe bạn.</h1>
+        </div>
+        <div class="col-lg-5">
+            <p class="text-muted mb-0" style="line-height: 1.8;">Cần tư vấn chọn giày, chọn size hay hỗ trợ bảo hành? Gửi lời nhắn hoặc ghé showroom trực tiếp.</p>
+        </div>
     </div>
 
-    <!-- 4 Contact Info Highlights -->
+    <!-- Contact info strip -->
     <div class="row g-4 mb-5">
-        <div class="col-sm-6 col-lg-3">
-            <div class="card h-100 p-4 border rounded-4 bg-surface text-center" style="border-color: var(--line-border) !important; box-shadow: var(--shadow-sm);">
-                <div class="rounded-circle bg-orange-light text-orange mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px; font-size: 1.6rem;">
-                    <i class="bi bi-geo-alt-fill"></i>
-                </div>
-                <h6 class="fw-bold mb-2">Showroom Chính</h6>
-                <p class="text-muted small mb-0">140 Lê Trọng Tấn, P. Tây Thạnh, Q. Tân Phú, TP. Hồ Chí Minh</p>
-            </div>
+        <div class="col-6 col-lg-3">
+            <div class="core-value-number mb-1">SHOWROOM</div>
+            <div class="small">140 Lê Trọng Tấn, P. Tây Thạnh, Q. Tân Phú, TP.HCM</div>
         </div>
-
-        <div class="col-sm-6 col-lg-3">
-            <div class="card h-100 p-4 border rounded-4 bg-surface text-center" style="border-color: var(--line-border) !important; box-shadow: var(--shadow-sm);">
-                <div class="rounded-circle bg-orange-light text-orange mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px; font-size: 1.6rem;">
-                    <i class="bi bi-telephone-fill"></i>
-                </div>
-                <h6 class="fw-bold mb-2">Hotline 24/7</h6>
-                <p class="text-muted small mb-1">Tư vấn miễn phí:</p>
-                <a href="tel:19006868" class="fw-bold text-orange fs-6">1900 6868</a>
-            </div>
+        <div class="col-6 col-lg-3">
+            <div class="core-value-number mb-1">HOTLINE</div>
+            <a href="tel:19006868" class="small fw-semibold">1900 6868</a>
         </div>
-
-        <div class="col-sm-6 col-lg-3">
-            <div class="card h-100 p-4 border rounded-4 bg-surface text-center" style="border-color: var(--line-border) !important; box-shadow: var(--shadow-sm);">
-                <div class="rounded-circle bg-orange-light text-orange mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px; font-size: 1.6rem;">
-                    <i class="bi bi-envelope-fill"></i>
-                </div>
-                <h6 class="fw-bold mb-2">Email Hỗ Trợ</h6>
-                <p class="text-muted small mb-1">Giải đáp trong 24h:</p>
-                <a href="mailto:hotro@sporthub.vn" class="fw-bold text-orange small">hotro@sporthub.vn</a>
-            </div>
+        <div class="col-6 col-lg-3">
+            <div class="core-value-number mb-1">EMAIL</div>
+            <a href="mailto:hotro@sporthub.vn" class="small fw-semibold">hotro@sporthub.vn</a>
         </div>
-
-        <div class="col-sm-6 col-lg-3">
-            <div class="card h-100 p-4 border rounded-4 bg-surface text-center" style="border-color: var(--line-border) !important; box-shadow: var(--shadow-sm);">
-                <div class="rounded-circle bg-orange-light text-orange mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px; font-size: 1.6rem;">
-                    <i class="bi bi-clock-fill"></i>
-                </div>
-                <h6 class="fw-bold mb-2">Giờ Hoạt Động</h6>
-                <p class="text-muted small mb-0">Thứ 2 - Chủ Nhật<br><strong>8:00 - 22:00</strong> (Cả ngày lễ)</p>
-            </div>
+        <div class="col-6 col-lg-3">
+            <div class="core-value-number mb-1">GIỜ MỞ CỬA</div>
+            <div class="small">Thứ 2 – Chủ nhật, 8:00 – 22:00</div>
         </div>
     </div>
 
@@ -71,9 +46,9 @@
     <div class="row g-5 align-items-stretch mb-5">
         <!-- Form Left -->
         <div class="col-lg-6">
-            <div class="card p-4 p-md-5 border rounded-4 bg-surface h-100" style="border-color: var(--line-border) !important; box-shadow: var(--shadow);">
-                <span class="text-orange text-uppercase fw-bold small" style="letter-spacing: 0.08em;">LIÊN HỆ TRỰC TUYẾN</span>
-                <h3 class="fw-bold my-2">Gửi tin nhắn cho SportHub</h3>
+            <div class="card p-4 p-md-5 border rounded-3 bg-surface h-100" style="border-color: var(--line-border) !important;">
+                <span class="eyebrow">LIÊN HỆ TRỰC TUYẾN</span>
+                <h3 class="editorial-heading mb-2">Gửi tin nhắn cho SportHub</h3>
                 <p class="text-muted small mb-4">Điền thông tin vào mẫu bên dưới, chúng tôi sẽ phản hồi sớm nhất.</p>
 
                 @using (Html.BeginForm("Contact", "Home", FormMethod.Post))
@@ -96,8 +71,8 @@
                         <textarea name="message" rows="5" class="form-control" placeholder="Hãy cho chúng tôi biết bạn cần hỗ trợ điều gì..." required></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-orange w-100 py-3 fs-6">
-                        <i class="bi bi-send-fill me-1"></i> Gửi tin nhắn ngay
+                    <button type="submit" class="btn-orange w-100 py-3">
+                        <span>Gửi tin nhắn</span> <i class="bi bi-arrow-up-right"></i>
                     </button>
                 }
             </div>
@@ -105,7 +80,7 @@
 
         <!-- Map Right -->
         <div class="col-lg-6">
-            <div class="card p-2 border rounded-4 bg-surface h-100 overflow-hidden" style="border-color: var(--line-border) !important; min-height: 450px; box-shadow: var(--shadow-sm);">
+            <div class="card p-2 border rounded-3 bg-surface h-100 overflow-hidden" style="border-color: var(--line-border) !important; min-height: 450px; box-shadow: var(--shadow-sm);">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.0628282377317!2d106.62648417570377!3d10.80649748934416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752be27d8b4f4d%3A0x92dcba2950430867!2zMTQwIEzDqiBUcuG7jW5nIFThuqVuLCBUw6J5IFRo4bqhbmgSwgVMOibiBQaMO6LCBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
                         width="100%" height="100%" style="border:0; border-radius: 12px; min-height: 420px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                 </iframe>

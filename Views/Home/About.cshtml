@@ -1,195 +1,150 @@
 ﻿@{
-    ViewBag.Title = "Về SportHub - Câu chuyện & Tầm nhìn";
+    ViewBag.Title = "Câu chuyện SportHub";
 }
 
-<!-- Hero Section: Editorial & High-end Performance (Chuyển thể từ mẫu AUREL) -->
-<section class="storytelling-dark-section">
-    <div class="row align-items-center g-5">
-        <div class="col-lg-7">
-            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3" style="letter-spacing: 0.1em; font-size: 0.8rem;">
-                <i class="bi bi-award-fill me-1"></i>Di Sản &amp; Hiệu Năng • 2026
-            </span>
-            <h1 class="editorial-heading text-white mb-4" style="font-size: clamp(2.5rem, 4.5vw, 4rem); line-height: 1.15;">
-                Bứt phá giới hạn.<br>
-                <span class="text-orange">Khẳng định bản lĩnh.</span>
-            </h1>
-            <p class="lead text-white-50 mb-4" style="max-width: 580px; font-weight: 400; line-height: 1.8;">
-                Chúng tôi không chỉ cung cấp trang thiết bị thể thao. Chúng tôi tạo dựng người bạn đồng hành tin cậy trên hành trình chinh phục từng cột mốc của bạn.
-            </p>
-            <div class="d-flex flex-wrap gap-3">
-                <a href="@Url.Action("Index", "Product")" class="btn btn-orange btn-lg">
-                    <span>Khám phá bộ sưu tập</span>
-                    <i class="bi bi-arrow-right"></i>
-                </a>
-                <a href="#philosophy" class="btn btn-luxury-light btn-lg">
-                    Triết lý thương hiệu
-                </a>
-            </div>
-        </div>
-
-        <div class="col-lg-5 text-center">
-            <!-- Luxury Product Pedestal Display with Liquid Glass Tag -->
-            <div class="position-relative d-inline-block">
-                <div class="p-4 rounded-4" style="background: radial-gradient(circle at 50% 40%, rgba(249,115,22,0.25), transparent 70%);">
-                    <img src="~/Content/images/products/SP001.jpg" alt="SportHub Premium" class="img-fluid" style="max-height: 380px; filter: drop-shadow(0 25px 35px rgba(0,0,0,0.6));" onerror="this.src='https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80'" />
-                </div>
-                <!-- Floating Liquid Glass Tag -->
-                <div class="liquid-glass-dark p-3 text-start position-absolute" style="bottom: 10px; right: -10px; min-width: 200px;">
-                    <small class="text-orange text-uppercase fw-bold" style="font-size: 0.72rem; letter-spacing: 0.05em;">Flagship Edition</small>
-                    <div class="fw-bold text-white fs-6">Pro Elite Runner</div>
-                    <small class="text-white-50">Sợi Carbon • Đệm khí kép</small>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div class="wrap" id="philosophy">
-    <!-- Philosophy Quote Statement (Typography như mẫu AUREL) -->
-    <section class="philosophy-banner">
-        <span class="text-orange text-uppercase fw-bold d-block mb-3" style="letter-spacing: 0.15em; font-size: 0.85rem;">
-            TRIẾT LÝ SẢN PHẨM
-        </span>
-        <blockquote class="philosophy-quote">
-            "Hiệu năng không cần lên tiếng.<br>
-            Chỉ cần được cảm nhận qua từng bước chạy."
-        </blockquote>
-        <p class="philosophy-desc">
-            Mỗi đôi giày, chiếc áo hay phụ kiện tại SportHub đều trải qua quy trình tuyển chọn khắt khe theo tiêu chuẩn vận động viên quốc tế, mang lại trải nghiệm êm ái, bền bỉ và vượt trội nhất.
-        </p>
-    </section>
-
-    <!-- Split Storytelling Section: Công nghệ & Nghệ thuật chế tác -->
-    <section class="my-5 p-4 p-lg-5 rounded-4 bg-surface border" style="border-color: var(--line-border) !important; box-shadow: var(--shadow-sm);">
+<div class="wrap py-3">
+    <!-- Hero: Editorial dark block -->
+    <section class="storytelling-dark-section mt-2">
         <div class="row align-items-center g-5">
-            <div class="col-lg-6">
-                <div class="rounded-4 overflow-hidden shadow-lg position-relative">
-                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&auto=format&fit=crop&q=80" alt="Chế tác thể thao" class="img-fluid w-100" style="min-height: 400px; object-fit: cover;" />
-                    <div class="position-absolute bottom-0 start-0 w-100 p-4" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);">
-                        <span class="badge bg-orange text-white px-3 py-1">Quy chuẩn phòng Lab</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <span class="text-orange text-uppercase fw-bold small" style="letter-spacing: 0.1em;">HÀNH TRÌNH CHẤT LƯỢNG</span>
-                <h2 class="editorial-heading my-3" style="font-size: clamp(2rem, 3.2vw, 2.6rem); color: var(--text);">
-                    Thời gian tạo nên<br>điều phi thường.
-                </h2>
-                <p class="text-muted" style="line-height: 1.85;">
-                    Mỗi đường may khí động học, từng miếng đệm đế EVA mật độ kép đều được thiết kế dựa trên dữ liệu phân tích chuyển động thực tế. Chúng tôi tin rằng không có con đường tắt nào để tạo ra những sản phẩm bảo vệ khớp gối và giải phóng tối đa sức mạnh cơ bắp của bạn.
-                </p>
-                <div class="d-flex align-items-center gap-4 mt-4 pt-3 border-top" style="border-color: var(--line) !important;">
-                    <div>
-                        <div class="editorial-heading fs-2 fw-bold text-orange">50.000+</div>
-                        <small class="text-muted fw-semibold">Vận động viên tin cậy</small>
-                    </div>
-                    <div class="vr" style="height: 40px;"></div>
-                    <div>
-                        <div class="editorial-heading fs-2 fw-bold text-orange">100%</div>
-                        <small class="text-muted fw-semibold">Chính hãng ủy quyền</small>
-                    </div>
-                    <div class="vr" style="height: 40px;"></div>
-                    <div>
-                        <div class="editorial-heading fs-2 fw-bold text-orange">7 Ngày</div>
-                        <small class="text-muted fw-semibold">Đổi trả tận nơi</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3 Core Brand Values (Mẫu 3 cột chuẩn như ảnh AUREL) -->
-    <section class="my-5 py-4">
-        <div class="text-center mb-5">
-            <span class="text-orange text-uppercase fw-bold small" style="letter-spacing: 0.12em;">GIÁ TRỊ CỐT LÕI</span>
-            <h2 class="editorial-heading mt-2">Đẳng cấp khẳng định từ chi tiết</h2>
-        </div>
-
-        <div class="core-values-grid">
-            <!-- Value 1 -->
-            <div class="core-value-card">
-                <span class="core-value-number">01</span>
-                <h5>Chất Liệu Tuyển Chọn</h5>
-                <p>
-                    Vải sợi dệt công nghệ Air-Mesh siêu thoáng, thoát ẩm tức thì kết hợp đệm bọt khí đàn hồi cao, giảm tối đa phản lực tác động lên xương khớp.
-                </p>
-            </div>
-
-            <!-- Value 2 -->
-            <div class="core-value-card">
-                <span class="core-value-number">02</span>
-                <h5>Công Nghệ Tiên Tiến</h5>
-                <p>
-                    Hợp tác trực tiếp cùng các thương hiệu đầu ngành (Nike, Adidas, Puma, Lining...), đảm bảo mọi công nghệ mới nhất đều có mặt tại kệ hàng.
-                </p>
-            </div>
-
-            <!-- Value 3 -->
-            <div class="core-value-card">
-                <span class="core-value-number">03</span>
-                <h5>Đồng Hành Dài Lâu</h5>
-                <p>
-                    Chế độ hậu mãi và bảo hành keo chỉ trọn đời, đổi size miễn phí trong 7 ngày cùng đội ngũ tư vấn viên am hiểu sâu sắc về thể thao.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Exclusive Membership CTA with Frosted Liquid Glass Card (Mẫu thẻ kính từ ảnh AUREL) -->
-    <section class="my-5 p-4 p-lg-5 rounded-4 position-relative overflow-hidden" style="background: #1F130B; color: #FFFFFF; box-shadow: 0 30px 60px rgba(67, 20, 7, 0.3);">
-        <div class="row align-items-center g-5 position-relative" style="z-index: 2;">
-            <div class="col-lg-6">
-                <span class="text-warning text-uppercase fw-bold small" style="letter-spacing: 0.15em;">SPORTHUB PRIVILEGE</span>
-                <h2 class="editorial-heading text-white my-3" style="font-size: clamp(2rem, 3.4vw, 3rem);">
-                    Một thế giới riêng.<br>
-                    <span class="text-orange">Dành cho bạn.</span>
-                </h2>
-                <p class="text-white-50 mb-4" style="line-height: 1.8; max-width: 480px;">
-                    Trở thành thành viên VIP của SportHub Club để nhận ngay đặc quyền giảm 15% cho mọi đơn hàng, ưu tiên mua các phiên bản giới hạn và quà tặng sinh nhật bất ngờ.
+            <div class="col-lg-7">
+                <span class="eyebrow eyebrow-light">DI SẢN &amp; HIỆU NĂNG • 2026</span>
+                <h1 class="editorial-heading text-white mb-4" style="font-size: clamp(2.4rem, 4.2vw, 3.6rem);">
+                    Bứt phá giới hạn.<br />
+                    <em style="color: #F3DEC4; font-weight: 400;">Khẳng định bản lĩnh.</em>
+                </h1>
+                <p class="mb-4" style="max-width: 540px;">
+                    Chúng tôi không chỉ cung cấp trang thiết bị thể thao. Chúng tôi tạo dựng người bạn đồng hành tin cậy trên hành trình chinh phục từng cột mốc của bạn.
                 </p>
                 <div class="d-flex flex-wrap gap-3">
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <a href="@Url.Action("Register", "Account")" class="btn btn-orange btn-lg">
-                            <i class="bi bi-star-fill text-warning me-1"></i> Đăng ký thành viên VIP
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("Index", "Profile")" class="btn btn-orange btn-lg">
-                            <i class="bi bi-person-badge me-1"></i> Xem thẻ thành viên của bạn
-                        </a>
-                    }
+                    <a href="@Url.Action("Index", "Product")" class="btn-orange">
+                        <span>Khám phá bộ sưu tập</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                    <a href="#philosophy" class="btn-luxury-light">Triết lý thương hiệu</a>
                 </div>
             </div>
 
-            <div class="col-lg-6 text-center">
-                <!-- Liquid Glass Membership Card Display -->
-                <div class="d-flex justify-content-center">
-                    <div class="membership-glass-card">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <div class="brand-logo text-white fs-4"><i class="bi bi-lightning-charge-fill text-warning"></i> SportHub</div>
-                                <small class="text-white-50 text-uppercase" style="letter-spacing: 0.15em; font-size: 0.68rem;">Black Diamond Club</small>
-                            </div>
-                            <div class="vip-card-chip"></div>
-                        </div>
+            <div class="col-lg-5">
+                <div class="position-relative rounded-3 overflow-hidden" style="aspect-ratio: 4 / 5; background: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=85') center/cover no-repeat;">
+                    <div class="liquid-glass-dark p-3 position-absolute" style="left: 1rem; right: 1rem; bottom: 1rem;">
+                        <small class="d-block text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.16em; color: #E6C699;">Phiên bản tiêu điểm</small>
+                        <div class="editorial-heading text-white" style="font-size: 1.15rem;">Pro Elite Runner</div>
+                        <small style="color: #C4B7AB;">Sợi carbon • Đệm khí kép</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                        <div class="my-3 text-start">
-                            <div class="editorial-heading text-warning" style="font-size: 2.8rem; line-height: 1;">VIP</div>
-                            <small class="text-white-50">Mã thẻ: <strong>SH-2026-8888</strong></small>
-                        </div>
+    <!-- Philosophy -->
+    <section class="editorial-philosophy" id="philosophy" style="padding: clamp(3rem, 5vw, 4.5rem) 0; border-bottom: 1px solid var(--line);">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <span class="eyebrow">TRIẾT LÝ SẢN PHẨM</span>
+            </div>
+            <div class="col-lg-8">
+                <blockquote class="philosophy-quote">
+                    Hiệu năng không cần lên tiếng.<br />
+                    Chỉ cần được cảm nhận qua từng bước chạy.
+                </blockquote>
+                <p class="philosophy-desc">
+                    Mỗi đôi giày, chiếc áo hay phụ kiện tại SportHub đều trải qua quy trình tuyển chọn khắt khe theo tiêu chuẩn vận động viên, mang lại trải nghiệm êm ái, bền bỉ và vượt trội.
+                </p>
+            </div>
+        </div>
+    </section>
 
-                        <div class="d-flex justify-content-between align-items-end text-start border-top pt-2" style="border-color: rgba(255,255,255,0.2) !important;">
-                            <div>
-                                <small class="text-white-50 d-block" style="font-size: 0.7rem;">CHỦ THẺ</small>
-                                <span class="fw-bold text-white small">@(User.Identity.IsAuthenticated ? ShopTheThao.Helpers.AuthHelper.FullName(User) : "PREMIUM ATHLETE")</span>
-                            </div>
-                            <div class="text-end">
-                                <small class="text-white-50 d-block" style="font-size: 0.7rem;">HẠN DÙNG</small>
-                                <span class="fw-bold text-white small">VĨNH CỬU</span>
-                            </div>
+    <!-- Craftsmanship story -->
+    <section class="my-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="rounded-3 overflow-hidden" style="aspect-ratio: 4 / 3; background: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1000&auto=format&fit=crop&q=80') center/cover no-repeat;" role="img" aria-label="Tập luyện thể thao"></div>
+            </div>
+            <div class="col-lg-6">
+                <span class="eyebrow">HÀNH TRÌNH CHẤT LƯỢNG</span>
+                <h2 class="editorial-heading my-3" style="font-size: clamp(1.9rem, 3vw, 2.5rem);">
+                    Thời gian tạo nên<br />điều phi thường.
+                </h2>
+                <p class="text-muted" style="line-height: 1.85;">
+                    Mỗi đường may, từng lớp đệm đế đều được thiết kế dựa trên dữ liệu chuyển động thực tế. Không có con đường tắt nào để tạo ra sản phẩm bảo vệ khớp gối và giải phóng tối đa sức mạnh của bạn.
+                </p>
+                <div class="row g-3 mt-3 pt-3 border-top" style="border-color: var(--line) !important;">
+                    <div class="col-4">
+                        <div class="editorial-heading fs-3">50.000+</div>
+                        <small class="text-muted">Khách hàng tin chọn</small>
+                    </div>
+                    <div class="col-4">
+                        <div class="editorial-heading fs-3">100%</div>
+                        <small class="text-muted">Hàng chính hãng</small>
+                    </div>
+                    <div class="col-4">
+                        <div class="editorial-heading fs-3">7 ngày</div>
+                        <small class="text-muted">Đổi size tận nơi</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3 Core Values -->
+    <section class="core-values-grid">
+        <div class="core-value-card">
+            <span class="core-value-number">01 / CHẤT LIỆU</span>
+            <h5>Chất liệu tuyển chọn</h5>
+            <p>Vải dệt Air-Mesh thoáng khí, thoát ẩm nhanh kết hợp đệm đàn hồi cao, giảm phản lực lên xương khớp.</p>
+        </div>
+        <div class="core-value-card">
+            <span class="core-value-number">02 / CÔNG NGHỆ</span>
+            <h5>Công nghệ tiên tiến</h5>
+            <p>Phân phối chính hãng Nike, Adidas, Puma, Yonex — công nghệ mới nhất luôn có mặt trên kệ hàng.</p>
+        </div>
+        <div class="core-value-card">
+            <span class="core-value-number">03 / CAM KẾT</span>
+            <h5>Đồng hành dài lâu</h5>
+            <p>Bảo hành keo chỉ, đổi size miễn phí trong 7 ngày cùng đội ngũ tư vấn am hiểu từng bộ môn.</p>
+        </div>
+    </section>
+
+    <!-- Membership CTA (same offer as home page) -->
+    <section class="prive-section my-5" style="background: radial-gradient(circle at 78% 50%, rgba(217, 119, 6, 0.25), rgba(234, 88, 12, 0.08) 45%, transparent 70%), #14100D; border-radius: var(--radius-lg); padding: clamp(2.5rem, 5vw, 4.5rem); color: var(--text-light);">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="eyebrow eyebrow-light">SPORTHUB PRIVÉ</span>
+                <h2 class="editorial-heading text-white mb-3" style="font-size: clamp(2rem, 3.4vw, 2.85rem);">
+                    Một thế giới riêng.<br />Dành cho bạn.
+                </h2>
+                <p class="mb-4" style="color: #B8ABA0; max-width: 480px; line-height: 1.8;">
+                    Thành viên được trải nghiệm sớm phiên bản giới hạn, tư vấn trang bị 1-1 và ưu đãi 10% (mã <strong class="text-white">SPORT10</strong>) cho đơn từ 500.000₫.
+                </p>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Register", "Account")" class="btn-orange">
+                        <span>Trở thành hội viên</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "Profile")" class="btn-orange">
+                        <span>Xem hồ sơ thành viên</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                }
+            </div>
+
+            <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end">
+                <div class="membership-glass-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold" style="letter-spacing: 0.2em; font-size: 0.8rem;">SPORTHUB</span>
+                        <span style="font-size: 0.68rem; letter-spacing: 0.16em; color: rgba(255,255,255,0.65);">PRIVÉ MEMBER</span>
+                    </div>
+                    <div class="vip-card-monogram">S</div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <div>
+                            <div style="font-size: 0.65rem; letter-spacing: 0.16em; color: rgba(255,255,255,0.55);">CHỦ THẺ</div>
+                            <div class="fw-semibold" style="font-size: 0.88rem;">@(User.Identity.IsAuthenticated ? ShopTheThao.Helpers.AuthHelper.FullName(User) : "Hội viên SportHub")</div>
                         </div>
+                        <span style="font-size: 0.72rem; letter-spacing: 0.14em; color: rgba(255,255,255,0.7);">SPORT10</span>
                     </div>
                 </div>
             </div>
