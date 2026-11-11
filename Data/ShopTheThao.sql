@@ -1,4 +1,4 @@
-/* =====================================================================
+﻿/* =====================================================================
    ĐỒ ÁN: WEBSITE QUẢN LÝ MẶT HÀNG THỂ THAO (ShopTheThao - ASP.NET MVC 5)
    File: SportShop.sql  |  SQL Server / LocalDB
    Cách chạy: mở bằng SSMS, kết nối (localdb)\MSSQLLocalDB rồi bấm Execute (F5).

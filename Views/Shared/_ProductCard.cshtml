@@ -7,31 +7,40 @@
     var slug = Model.Category != null ? (Model.Category.Slug ?? "") : "";
     var icons = new System.Collections.Generic.Dictionary<string, string> {
         { "bong-da", "bi-dribbble" }, { "chay-bo", "bi-person-walking" }, { "gym", "bi-heart-pulse" },
-        { "cau-long", "bi-feather" }, { "phu-kien", "bi-bag-heart" } };
-    var ic = icons.ContainsKey(slug) ? icons[slug] : "bi-trophy-fill";
+        { "cau-long", "bi-feather" }, { "phu-kien", "bi-bag" } };
+    var ic = icons.ContainsKey(slug) ? icons[slug] : "bi-award";
 }
 <a class="p-card" href="@Url.Action("Details", "Product", new { id = Model.Id })">
     <div class="p-thumb">
         @if (!string.IsNullOrEmpty(img))
         {
-            <img src="@img" alt="@Model.Name" />
+            <img src="@img" alt="@Model.Name" loading="lazy" />
         }
         else
         {
             <i class="bi @ic"></i>
         }
         @if (onSale)
-        {<span class="p-badge">-@(100 - (int)(Model.SalePrice.Value * 100 / Model.Price))%</span>}
-        <span class="p-go"><i class="bi bi-arrow-up-right"></i></span>
+        {
+            <span class="p-badge">Ưu đãi -@(100 - (int)(Model.SalePrice.Value * 100 / Model.Price))%</span>
+        }
+        else if (Model.IsFeatured)
+        {
+            <span class="p-badge">Phiên bản đặc biệt</span>
+        }
     </div>
     <div class="p-body">
-        <small class="p-cat">@(Model.Category != null ? Model.Category.Name : "")</small>
-        <h6 class="p-name">@Model.Name</h6>
-        <div class="p-price">
+        <div class="p-title-row">
+            <h6 class="p-name mb-0">@Model.Name</h6>
+            <i class="bi bi-arrow-up-right text-muted small mt-1"></i>
+        </div>
+        <small class="p-cat">@(Model.Category != null ? Model.Category.Name : "Thể thao") @(Model.Brand != null ? "• " + Model.Brand.Name : "")</small>
+        <div class="p-price mt-1">
             <b>@now.ToString("N0", vn) ₫</b>
             @if (onSale)
-            {<s>@Model.Price.ToString("N0", vn) ₫</s>}
+            {
+                <s>@Model.Price.ToString("N0", vn) ₫</s>
+            }
         </div>
-        <small class="p-sold">Đã bán @Model.SoldCount</small>
     </div>
 </a>
