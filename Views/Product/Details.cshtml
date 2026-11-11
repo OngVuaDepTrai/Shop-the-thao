@@ -1,0 +1,452 @@
+@model ShopTheThao.ViewModels.ProductDetailsViewModel
+@{
+    var p = Model.Product;
+    ViewBag.Title = p.Name;
+    var vn = new System.Globalization.CultureInfo("vi-VN");
+    var onSale = p.SalePrice.HasValue && p.SalePrice.Value < p.Price;
+    var finalPrice = onSale ? p.SalePrice.Value : p.Price;
+    var discountPercent = onSale ? (100 - (int)(p.SalePrice.Value * 100 / p.Price)) : 0;
+
+    var slug = p.Category != null ? (p.Category.Slug ?? "") : "";
+    var icons = new System.Collections.Generic.Dictionary<string, string> {
+        { "bong-da", "bi-dribbble" }, { "chay-bo", "bi-person-walking" }, { "gym", "bi-heart-pulse" },
+        { "cau-long", "bi-feather" }, { "phu-kien", "bi-bag-heart" }
+    };
+    var fallbackIcon = icons.ContainsKey(slug) ? icons[slug] : "bi-trophy-fill";
+    var firstVariant = Model.Variants.FirstOrDefault(v => v.Stock > 0) ?? Model.Variants.FirstOrDefault();
+}
+
+<div class="wrap py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="sp-breadcrumb mb-4">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")"><i class="bi bi-house-door me-1"></i>Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Product")">Sản phẩm</a></li>
+            @if (p.Category != null)
+            {
+                <li class="breadcrumb-item">
+                    <a href="@Url.Action("Index", "Product", new { category = p.CategoryId })">@p.Category.Name</a>
+                </li>
+            }
+            <li class="breadcrumb-item active text-truncate" style="max-width: 280px;" aria-current="page">@p.Name</li>
+        </ol>
+    </nav>
+
+    <!-- Khối chính: Thư viện ảnh + Thông tin đặt hàng -->
+    <div class="detail-card mb-5">
+        <div class="row g-4 g-lg-5">
+            <!-- Cột trái: Thư viện ảnh (ProductImage.Gallery) -->
+            <div class="col-lg-6">
+                <div class="gallery-main" id="galleryMainBox">
+                    @if (Model.GalleryImages != null && Model.GalleryImages.Any())
+                    {
+                        <img id="mainProductImage" src="@Model.GalleryImages.First()" alt="@p.Name" />
+                    }
+                    else
+                    {
+                        <div class="gallery-placeholder">
+                            <i class="bi @fallbackIcon"></i>
+                        </div>
+                    }
+
+                    @if (onSale)
+                    {
+                        <span class="p-badge">Giảm @discountPercent%</span>
+                    }
+                    @if (!string.IsNullOrEmpty(p.Code))
+                    {
+                        <span class="sku-float-badge">Mã: @p.Code</span>
+                    }
+                </div>
+
+                @if (Model.GalleryImages != null && Model.GalleryImages.Count > 1)
+                {
+                    <div class="gallery-thumbs mt-3">
+                        @for (int i = 0; i < Model.GalleryImages.Count; i++)
+                        {
+                            var imgUrl = Model.GalleryImages[i];
+                            <button type="button" class="thumb-item @(i == 0 ? "active" : "")" onclick="switchProductImage(this, '@imgUrl')">
+                                <img src="@imgUrl" alt="@p.Name - ảnh @(i + 1)" />
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+
+            <!-- Cột phải: Thông tin sản phẩm & Chọn biến thể -->
+            <div class="col-lg-6">
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                    @if (p.Category != null)
+                    {
+                        <a href="@Url.Action("Index", "Product", new { category = p.CategoryId })" class="detail-cat-badge">
+                            <i class="bi @fallbackIcon me-1"></i>@p.Category.Name
+                        </a>
+                    }
+                    @if (p.Brand != null)
+                    {
+                        <a href="@Url.Action("Index", "Product", new { brand = p.BrandId })" class="detail-brand-badge">
+                            <i class="bi bi-patch-check-fill text-orange me-1"></i>@p.Brand.Name
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(p.Code))
+                    {
+                        <span class="text-muted small ms-auto">SKU: <b class="text-white">@p.Code</b></span>
+                    }
+                </div>
+
+                <h1 class="detail-title">@p.Name</h1>
+
+                <!-- Đánh giá & Đã bán -->
+                <div class="d-flex flex-wrap align-items-center gap-3 mb-3 pb-3 border-bottom" style="border-color: var(--line) !important;">
+                    <a href="#reviewsSection" class="d-flex align-items-center gap-1 text-decoration-none">
+                        <span class="text-warning fw-bold">@Model.AverageRating.ToString("0.0")</span>
+                        <span class="star-group">
+                            @for (int s = 1; s <= 5; s++)
+                            {
+                                <i class="bi @(s <= Math.Round(Model.AverageRating) ? "bi-star-fill" : "bi-star")"></i>
+                            }
+                        </span>
+                        <span class="text-muted small ms-1">(@Model.TotalReviews đánh giá)</span>
+                    </a>
+                    <span class="text-muted">|</span>
+                    <span class="text-muted small"><i class="bi bi-bag-heart-fill text-orange me-1"></i>Đã bán <b class="text-white">@p.SoldCount</b></span>
+                    <span class="text-muted">|</span>
+                    <span id="stockStatusBadge" class="stock-badge @(Model.TotalStock > 0 ? "in-stock" : "out-stock")">
+                        @if (Model.TotalStock > 0)
+                        {
+                            <i class="bi bi-check-circle-fill me-1"></i><span>Còn hàng (@Model.TotalStock sản phẩm)</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-x-circle-fill me-1"></i><span>Tạm hết hàng</span>
+                        }
+                    </span>
+                </div>
+
+                <!-- Hộp giá -->
+                <div class="detail-price-box mb-4">
+                    <div class="d-flex align-items-baseline gap-3 flex-wrap">
+                        <span class="detail-price-now">@finalPrice.ToString("N0", vn) ₫</span>
+                        @if (onSale)
+                        {
+                            <s class="detail-price-old">@p.Price.ToString("N0", vn) ₫</s>
+                            <span class="detail-save-tag">Tiết kiệm @((p.Price - p.SalePrice.Value).ToString("N0", vn)) ₫</span>
+                        }
+                    </div>
+                </div>
+
+                <!-- Mô tả ngắn -->
+                @if (!string.IsNullOrWhiteSpace(p.Description))
+                {
+                    <p class="detail-desc mb-4">@p.Description</p>
+                }
+
+                <!-- Form Thêm vào giỏ hàng -->
+                @using (Html.BeginForm("Add", "Cart", FormMethod.Post, new { id = "addToCartForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" value="@p.Id" />
+                    <input type="hidden" name="variantId" id="selectedVariantId" value="@(firstVariant != null ? firstVariant.Id : 0)" />
+                    <input type="hidden" name="productVariantId" id="selectedProductVariantId" value="@(firstVariant != null ? firstVariant.Id : 0)" />
+                    <input type="hidden" name="size" id="selectedSizeInput" value="@(firstVariant != null ? firstVariant.Size : "")" />
+                    <input type="hidden" name="color" id="selectedColorInput" value="@(firstVariant != null ? firstVariant.Color : "")" />
+
+                    <!-- Chọn Màu sắc -->
+                    if (Model.Colors.Any())
+                    {
+                        <div class="variant-section mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="variant-label">Màu sắc: <b class="text-orange" id="selectedColorLabel">@(firstVariant != null ? firstVariant.Color : Model.Colors.First())</b></span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2" id="colorOptionsGroup">
+                                @foreach (var color in Model.Colors)
+                                {
+                                    var isSelected = firstVariant != null && firstVariant.Color == color;
+                                    <button type="button"
+                                            class="variant-btn color-btn @(isSelected ? "active" : "")"
+                                            data-color="@color"
+                                            onclick="selectVariantColor(this, '@color')">
+                                        @color
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Chọn Kích cỡ (Size) -->
+                    if (Model.Sizes.Any())
+                    {
+                        <div class="variant-section mb-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="variant-label">Kích cỡ (Size): <b class="text-orange" id="selectedSizeLabel">@(firstVariant != null ? firstVariant.Size : Model.Sizes.First())</b></span>
+                                <a href="#sizeGuideModal" data-bs-toggle="modal" class="small text-orange text-decoration-none">
+                                    <i class="bi bi-rulers me-1"></i>Bảng quy đổi size
+                                </a>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2" id="sizeOptionsGroup">
+                                @foreach (var size in Model.Sizes)
+                                {
+                                    var isSelected = firstVariant != null && firstVariant.Size == size;
+                                    <button type="button"
+                                            class="variant-btn size-btn @(isSelected ? "active" : "")"
+                                            data-size="@size"
+                                            onclick="selectVariantSize(this, '@size')">
+                                        @size
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Chọn số lượng + Nút hành động -->
+                    <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
+                        <div class="qty-box">
+                            <button type="button" class="qty-btn" onclick="changeDetailQty(-1)" aria-label="Giảm số lượng"><i class="bi bi-dash"></i></button>
+                            <input type="number" name="quantity" id="detailQuantityInput" value="1" min="1" max="@(firstVariant != null && firstVariant.Stock > 0 ? firstVariant.Stock : 99)" readonly />
+                            <button type="button" class="qty-btn" onclick="changeDetailQty(1)" aria-label="Tăng số lượng"><i class="bi bi-plus"></i></button>
+                        </div>
+
+                        <button type="submit"
+                                id="btnAddToCart"
+                                class="btn btn-orange flex-grow-1 py-3 px-4 d-inline-flex align-items-center justify-content-center gap-2"
+                                data-product-id="@p.Id"
+                                data-variant-id="@(firstVariant != null ? firstVariant.Id : 0)"
+                                @(Model.TotalStock <= 0 ? "disabled" : "")>
+                            <i class="bi bi-cart-plus-fill fs-5"></i>
+                            <span>@(Model.TotalStock > 0 ? "Thêm vào giỏ hàng" : "Tạm hết hàng")</span>
+                        </button>
+
+                        <a href="@Url.Action("Add", "Wishlist", new { productId = p.Id })"
+                           class="btn btn-outline-orange py-3 px-3 @(Model.IsInWishlist ? "active" : "")"
+                           title="Thêm vào danh sách yêu thích">
+                            <i class="bi @(Model.IsInWishlist ? "bi-heart-fill" : "bi-heart") fs-5"></i>
+                        </a>
+                    </div>
+                }
+
+                <!-- Cam kết dịch vụ -->
+                <div class="detail-perks mt-4 pt-4 border-top" style="border-color: var(--line) !important;">
+                    <div class="row g-3">
+                        <div class="col-sm-6 d-flex align-items-center gap-2">
+                            <i class="bi bi-shield-check text-orange fs-4"></i>
+                            <div class="small"><b>Chính hãng 100%</b><div class="text-muted">Đền gấp đôi nếu phát hiện giả</div></div>
+                        </div>
+                        <div class="col-sm-6 d-flex align-items-center gap-2">
+                            <i class="bi bi-truck text-orange fs-4"></i>
+                            <div class="small"><b>Giao hàng toàn quốc</b><div class="text-muted">Miễn phí đơn từ 500.000 ₫</div></div>
+                        </div>
+                        <div class="col-sm-6 d-flex align-items-center gap-2">
+                            <i class="bi bi-arrow-repeat text-orange fs-4"></i>
+                            <div class="small"><b>Đổi size trong 7 ngày</b><div class="text-muted">Hỗ trợ đổi size tận nhà</div></div>
+                        </div>
+                        <div class="col-sm-6 d-flex align-items-center gap-2">
+                            <i class="bi bi-ticket-perforated text-orange fs-4"></i>
+                            <div class="small"><b>Mã giảm giá SPORT10</b><div class="text-muted">Giảm 10% cho đơn từ 500K</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Khu vực Đánh giá & Bình luận -->
+    <section class="sec" id="reviewsSection">
+        <div class="sec-head">
+            <h2>Đánh giá từ khách hàng (@Model.TotalReviews)</h2>
+        </div>
+
+        <div class="row g-4">
+            <!-- Tổng quan điểm đánh giá & Form viết đánh giá -->
+            <div class="col-lg-4">
+                <div class="review-summary-card mb-4">
+                    <div class="text-center pb-3 mb-3 border-bottom" style="border-color: var(--line) !important;">
+                        <div class="display-4 fw-extrabold text-orange">@Model.AverageRating.ToString("0.0")<span class="fs-5 text-muted">/5</span></div>
+                        <div class="star-group fs-5 my-1">
+                            @for (int s = 1; s <= 5; s++)
+                            {
+                                <i class="bi @(s <= Math.Round(Model.AverageRating) ? "bi-star-fill" : "bi-star")"></i>
+                            }
+                        </div>
+                        <small class="text-muted">Dựa trên @Model.TotalReviews nhận xét thực tế</small>
+                    </div>
+
+                    @for (int star = 5; star >= 1; star--)
+                    {
+                        var cnt = Model.RatingCounts.ContainsKey(star) ? Model.RatingCounts[star] : 0;
+                        var pct = Model.TotalReviews > 0 ? (int)Math.Round((double)cnt * 100 / Model.TotalReviews) : (star == 5 ? 100 : 0);
+                        <div class="d-flex align-items-center gap-2 mb-2 small">
+                            <span class="text-nowrap fw-semibold" style="width: 42px;">@star <i class="bi bi-star-fill text-warning"></i></span>
+                            <div class="progress flex-grow-1" style="height: 8px; background: var(--orange-light);">
+                                <div class="progress-bar" role="progressbar" style="width: @(pct)%; background: var(--orange);"></div>
+                            </div>
+                            <span class="text-muted text-end" style="width: 28px;">@cnt</span>
+                        </div>
+                    }
+                </div>
+
+                <!-- Form gửi đánh giá -->
+                <div class="review-form-card">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-chat-square-quote-fill text-orange me-2"></i>Viết đánh giá của bạn</h5>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("AddReview", "Product", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="productId" value="@p.Id" />
+                            <input type="hidden" name="rating" id="reviewRatingInput" value="5" />
+
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">Chọn mức độ hài lòng:</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rating-picker" id="starRatingPicker">
+                                        @for (int s = 1; s <= 5; s++)
+                                        {
+                                            <button type="button" class="star-pick-btn active" data-value="@s" onclick="pickReviewStar(@s)">
+                                                <i class="bi bi-star-fill"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                    <span class="small fw-semibold text-orange" id="ratingTextLabel">Tuyệt vời (5/5)</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">Nhận xét về sản phẩm:</label>
+                                <textarea name="comment" rows="4" class="form-control" placeholder="Chia sẻ cảm nhận về chất liệu, độ êm, form dáng sản phẩm..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-orange w-100">
+                                <i class="bi bi-send-fill me-1"></i> Gửi đánh giá
+                            </button>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted small mb-3">Bạn cần đăng nhập tài khoản để gửi nhận xét và đánh giá cho sản phẩm này.</p>
+                        <a href="@Url.Action("Login", "Account", new { returnUrl = Request.RawUrl })" class="btn btn-outline-orange w-100">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Đăng nhập để đánh giá
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Danh sách bình luận -->
+            <div class="col-lg-8">
+                @if (Model.Reviews != null && Model.Reviews.Any())
+                {
+                    <div class="d-flex flex-column gap-3">
+                        @foreach (var rev in Model.Reviews)
+                        {
+                            var reviewerName = rev.User != null && !string.IsNullOrEmpty(rev.User.FullName) ? rev.User.FullName : "Khách hàng SportHub";
+                            var initial = reviewerName.Substring(0, 1).ToUpper();
+                            <div class="review-item-card">
+                                <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+                                    <div class="d-flex align-items-center gap-3">
+                                        @if (rev.User != null && !string.IsNullOrEmpty(rev.User.AvatarUrl))
+                                        {
+                                            <img src="@rev.User.AvatarUrl" alt="@reviewerName" class="review-avatar-img" />
+                                        }
+                                        else
+                                        {
+                                            <div class="review-avatar">@initial</div>
+                                        }
+                                        <div>
+                                            <h6 class="mb-0 fw-bold">@reviewerName</h6>
+                                            <div class="star-group small">
+                                                @for (int s = 1; s <= 5; s++)
+                                                {
+                                                    <i class="bi @(s <= rev.Rating ? "bi-star-fill" : "bi-star")"></i>
+                                                }
+                                                <span class="ms-2 badge bg-success bg-opacity-25 text-success border border-success border-opacity-25">
+                                                    <i class="bi bi-patch-check-fill me-1"></i>Đã xác thực
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">@rev.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                                </div>
+                                <p class="mb-0 mt-2 review-comment-text">@rev.Comment</p>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state-box text-center py-5 h-100 d-flex flex-column justify-content-center align-items-center">
+                        <div class="empty-icon mb-3"><i class="bi bi-chat-heart"></i></div>
+                        <h5 class="fw-bold">Chưa có đánh giá nào cho sản phẩm này</h5>
+                        <p class="text-muted mb-0">Hãy là người đầu tiên chia sẻ trải nghiệm của bạn về <b>@p.Name</b>!</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Sản phẩm liên quan -->
+    @if (Model.RelatedProducts != null && Model.RelatedProducts.Any())
+    {
+        <section class="sec mb-5">
+            <div class="sec-head">
+                <h2>Sản phẩm liên quan</h2>
+                <a href="@Url.Action("Index", "Product", new { category = p.CategoryId })">Xem tất cả →</a>
+            </div>
+            <div class="p-grid">
+                @foreach (var rel in Model.RelatedProducts)
+                {
+                    @Html.Partial("_ProductCard", rel)
+                }
+            </div>
+        </section>
+    }
+</div>
+
+<!-- Modal Bảng quy đổi size -->
+<div class="modal fade" id="sizeGuideModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background: var(--card); border: 1px solid var(--line);">
+            <div class="modal-header" style="border-color: var(--line);">
+                <h5 class="modal-title fw-bold"><i class="bi bi-rulers text-orange me-2"></i>Bảng quy đổi kích cỡ chuẩn</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <p class="small text-muted">Bảng kích cỡ tham khảo cho giày và trang phục thể thao tại SportHub:</p>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered text-center align-middle mb-0" style="border-color: var(--line);">
+                        <thead style="background: var(--orange-light); color: var(--orange);">
+                            <tr>
+                                <th>Size Giày (EU)</th>
+                                <th>Chiều dài chân (cm)</th>
+                                <th>Size Áo/Quần</th>
+                                <th>Cân nặng (kg)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>39</td><td>24.5 cm</td><td>S</td><td>50 – 60 kg</td></tr>
+                            <tr><td>40</td><td>25.0 cm</td><td>M</td><td>60 – 68 kg</td></tr>
+                            <tr><td>41</td><td>26.0 cm</td><td>L</td><td>68 – 76 kg</td></tr>
+                            <tr><td>42</td><td>26.5 cm</td><td>XL</td><td>76 – 85 kg</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        window.productVariantsData = [
+            @for (int i = 0; i < Model.Variants.Count; i++)
+            {
+                var v = Model.Variants[i];
+                @Html.Raw(string.Format("{{ id: {0}, size: '{1}', color: '{2}', stock: {3} }}{4}",
+                    v.Id,
+                    HttpUtility.JavaScriptStringEncode(v.Size ?? ""),
+                    HttpUtility.JavaScriptStringEncode(v.Color ?? ""),
+                    v.Stock,
+                    i < Model.Variants.Count - 1 ? "," : ""))
+            }
+        ];
+    </script>
+}
+

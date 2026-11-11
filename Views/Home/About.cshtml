@@ -1,9 +1,146 @@
-﻿@{
-    ViewBag.Title = "About";
+@{
+    ViewBag.Title = "Giới thiệu";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<div class="wrap py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="sp-breadcrumb mb-4">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")"><i class="bi bi-house-door me-1"></i>Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Giới thiệu</li>
+        </ol>
+    </nav>
+
+    <!-- Hero Banner Giới thiệu -->
+    <div class="about-hero mb-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <span class="shop-banner-tag mb-3"><i class="bi bi-lightning-charge-fill me-1"></i>Câu chuyện SportHub</span>
+                <h1 class="display-5 fw-extrabold mb-3">Truyền cảm hứng vận động cho người Việt mỗi ngày</h1>
+                <p class="lead opacity-90 mb-4">
+                    Ra đời với sứ mệnh mang đến các sản phẩm thể thao chính hãng, chất lượng cao với mức giá hợp lý, <b>SportHub</b> là điểm đến tin cậy của cộng đồng yêu bóng đá, chạy bộ, tập gym và cầu lông trên toàn quốc.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="@Url.Action("Index", "Product")" class="btn btn-white">
+                        Khám phá sản phẩm <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                    <a href="@Url.Action("Contact", "Home")" class="btn btn-ghost">
+                        Liên hệ cửa hàng
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-grid place-items-center">
+                <div class="about-hero-badge">
+                    <i class="bi bi-trophy-fill"></i>
+                    <span>100% Chính Hãng</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Con số ấn tượng -->
+    <div class="row g-3 mb-5">
+        <div class="col-6 col-lg-3">
+            <div class="stat-card text-center">
+                <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+                <h3 class="stat-num">15.000+</h3>
+                <p class="stat-label mb-0">Khách hàng tin dùng</p>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card text-center">
+                <div class="stat-icon"><i class="bi bi-box-seam-fill"></i></div>
+                <h3 class="stat-num">500+</h3>
+                <p class="stat-label mb-0">Mẫu mã thể thao đa dạng</p>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card text-center">
+                <div class="stat-icon"><i class="bi bi-award-fill"></i></div>
+                <h3 class="stat-num">100%</h3>
+                <p class="stat-label mb-0">Sản phẩm chính hãng</p>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-card text-center">
+                <div class="stat-icon"><i class="bi bi-star-fill"></i></div>
+                <h3 class="stat-num">4.9 / 5</h3>
+                <p class="stat-label mb-0">Đánh giá hài lòng</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Giá trị cốt lõi -->
+    <section class="sec">
+        <div class="sec-head">
+            <h2>Giá trị cốt lõi của SportHub</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="value-card h-100">
+                    <div class="value-icon"><i class="bi bi-patch-check-fill"></i></div>
+                    <h5 class="fw-bold mt-3">Chất lượng chuẩn thi đấu</h5>
+                    <p class="text-muted mb-0">
+                        Tất cả giày đá bóng, giày chạy bộ, vợt cầu lông và trang phục tập luyện đều được tuyển chọn kỹ lưỡng từ các thương hiệu uy tín như Nike, Adidas, Puma, Yonex.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="value-card h-100">
+                    <div class="value-icon"><i class="bi bi-heart-pulse-fill"></i></div>
+                    <h5 class="fw-bold mt-3">Tư vấn đúng môn – đúng form</h5>
+                    <p class="text-muted mb-0">
+                        Đội ngũ am hiểu kỹ thuật từng bộ môn giúp bạn chọn đúng size giày, độ căng mặt vợt hay chất liệu vải thoáng khí phù hợp nhất với cường độ tập luyện.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="value-card h-100">
+                    <div class="value-icon"><i class="bi bi-shield-check"></i></div>
+                    <h5 class="fw-bold mt-3">Hậu mãi &amp; Đổi trả tận tâm</h5>
+                    <p class="text-muted mb-0">
+                        Hỗ trợ đổi size miễn phí trong 7 ngày, bảo hành keo chỉ chính hãng và giao hàng nhanh toàn quốc chỉ từ 2–4 ngày làm việc.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Các bộ môn chủ lực -->
+    <section class="sec">
+        <div class="sec-head">
+            <h2>Bộ môn thể thao chủ lực</h2>
+            <a href="@Url.Action("Index", "Product")">Xem toàn bộ sản phẩm →</a>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6 col-lg-3">
+                <a href="@Url.Action("Index", "Product", new { q = "Bóng đá" })" class="sport-pillar-card">
+                    <i class="bi bi-dribbble"></i>
+                    <h5 class="fw-bold mt-2 mb-1">Bóng đá</h5>
+                    <small class="text-muted">Giày cỏ nhân tạo, quần áo đấu, phụ kiện bảo vệ</small>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="@Url.Action("Index", "Product", new { q = "Chạy bộ" })" class="sport-pillar-card">
+                    <i class="bi bi-person-walking"></i>
+                    <h5 class="fw-bold mt-2 mb-1">Chạy bộ</h5>
+                    <small class="text-muted">Giày đệm êm, tất chạy bộ, quần áo siêu nhẹ</small>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="@Url.Action("Index", "Product", new { q = "Gym" })" class="sport-pillar-card">
+                    <i class="bi bi-heart-pulse"></i>
+                    <h5 class="fw-bold mt-2 mb-1">Gym &amp; Fitness</h5>
+                    <small class="text-muted">Áo tập Dry-Fit, găng tay tập tạ, bình nước thể thao</small>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="@Url.Action("Index", "Product", new { q = "Cầu lông" })" class="sport-pillar-card">
+                    <i class="bi bi-feather"></i>
+                    <h5 class="fw-bold mt-2 mb-1">Cầu lông</h5>
+                    <small class="text-muted">Vợt carbon trợ lực, giày bám sân, bao vợt chuyên dụng</small>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
