@@ -1,7 +1,7 @@
-﻿using System.Data.Entity;
+using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-
 using ShopTheThao.Models;
 using ShopTheThao.ViewModels;
 
@@ -25,9 +25,48 @@ namespace ShopTheThao.Controllers
             return View(vm);
         }
 
-        public ActionResult About() { return View(); }
-        public ActionResult Contact() { return View(); }
+        public ActionResult About() 
+        { 
+            return View(); 
+        }
 
-        protected override void Dispose(bool disposing) { if (disposing) db.Dispose(); base.Dispose(disposing); }
+        // GET: Home/Contact
+        public ActionResult Contact() 
+        { 
+            return View(); 
+        }
+
+        // POST: Home/Contact (Lưu vào bảng Contacts theo đúng phân công)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Contact(string name, string email, string message)
+        {
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(message))
+            {
+                TempData["Error"] = "Vui lòng điền đầy đủ họ tên, email và nội dung tin nhắn!";
+                return View();
+            }
+
+            var contact = new Contact
+            {
+                Name = name.Trim(),
+                Email = email.Trim(),
+                Message = message.Trim(),
+                CreatedAt = DateTime.Now,
+                IsRead = false
+            };
+
+            db.Contacts.Add(contact);
+            db.SaveChanges();
+
+            TempData["Success"] = "Cảm ơn bạn đã liên hệ! Đội ngũ SportHub sẽ phản hồi trong vòng 24 giờ làm việc.";
+            return RedirectToAction("Contact");
+        }
+
+        protected override void Dispose(bool disposing) 
+        { 
+            if (disposing) db.Dispose(); 
+            base.Dispose(disposing); 
+        }
     }
 }
