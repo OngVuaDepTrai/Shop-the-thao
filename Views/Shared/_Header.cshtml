@@ -1,0 +1,197 @@
+@using ShopTheThao.Helpers
+
+<!-- Top Notification Bar -->
+<div class="top-notice-bar d-none d-md-block">
+    <div class="wrap d-flex justify-content-between align-items-center">
+        <div>
+            <i class="bi bi-fire me-1 text-warning"></i> 
+            <strong>SportHub:</strong> Thế giới đồ thể thao chính hãng - Miễn phí đổi trả 7 ngày
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <span><i class="bi bi-telephone-fill me-1"></i> Hotline: <strong>1900 6868</strong></span>
+            <span><i class="bi bi-clock-fill me-1"></i> 8:00 - 22:00</span>
+        </div>
+    </div>
+</div>
+
+<!-- Main Sticky Header -->
+<header class="main-header">
+    <div class="wrap py-2 py-lg-3">
+        <div class="d-flex align-items-center justify-content-between gap-3">
+            <!-- Mobile Menu Toggle Button -->
+            <button class="btn btn-link text-dark p-0 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileNav" aria-controls="mobileNav">
+                <i class="bi bi-list fs-2 text-orange"></i>
+            </button>
+
+            <!-- Brand Logo -->
+            <a class="brand-logo" href="@Url.Action("Index", "Home")">
+                <i class="bi bi-lightning-charge-fill"></i>
+                <span>Sport<span class="text-orange">Hub</span></span>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="d-none d-lg-flex align-items-center gap-1 header-nav">
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" 
+                   href="@Url.Action("Index", "Home")">
+                    Trang chủ
+                </a>
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Product" && Request.QueryString["onSale"] == null ? "active" : "")" 
+                   href="@Url.Action("Index", "Product")">
+                    Sản phẩm
+                </a>
+                <a class="nav-link @(Request.QueryString["onSale"] != null ? "active" : "")" 
+                   href="@Url.Action("Index", "Product", new { onSale = true })">
+                    <i class="bi bi-percent text-danger me-1"></i>Khuyến mãi
+                </a>
+                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")" 
+                   href="@Url.Action("About", "Home")">
+                    Giới thiệu
+                </a>
+                <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Contact" ? "active" : "")" 
+                   href="@Url.Action("Contact", "Home")">
+                    Liên hệ
+                </a>
+            </nav>
+
+            <!-- Search Bar (Desktop) -->
+            <div class="header-search d-none d-md-block">
+                <form action="@Url.Action("Index", "Product")" method="get" class="m-0">
+                    <i class="bi bi-search"></i>
+                    <input type="text" name="q" value="@Request.QueryString["q"]" placeholder="Tìm giày, áo, vợt..." autocomplete="off" />
+                </form>
+            </div>
+
+            <!-- Action Buttons (Wishlist, Cart, User) -->
+            <div class="header-actions">
+                <!-- Search icon for mobile -->
+                <a class="action-icon-btn d-md-none" href="@Url.Action("Index", "Product")" title="Tìm kiếm">
+                    <i class="bi bi-search"></i>
+                </a>
+
+                <!-- Wishlist -->
+                <a class="action-icon-btn d-none d-sm-inline-flex" href="@Url.Action("Index", "Wishlist")" title="Danh sách yêu thích">
+                    <i class="bi bi-heart"></i>
+                </a>
+
+                <!-- Cart -->
+                <a class="action-icon-btn" href="@Url.Action("Index", "Cart")" title="Giỏ hàng">
+                    <i class="bi bi-bag"></i>
+                </a>
+
+                <!-- User Account Profile / Login -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="dropdown">
+                        <button class="btn p-0 border-0 dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="user-chip">
+                                <span class="user-avatar-circle">
+                                    @(AuthHelper.FullName(User).Length > 0 ? AuthHelper.FullName(User).Substring(0, 1).ToUpper() : "U")
+                                </span>
+                                <span class="d-none d-sm-inline">@AuthHelper.FullName(User)</span>
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 mt-2 p-2">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a class="dropdown-item py-2 fw-semibold text-danger" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">
+                                        <i class="bi bi-speedometer2 me-2"></i>Trang Quản Trị
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                            }
+                            <li>
+                                <a class="dropdown-item py-2" href="@Url.Action("Index", "Profile")">
+                                    <i class="bi bi-person me-2 text-orange"></i>Hồ sơ cá nhân
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2" href="@Url.Action("History", "Order")">
+                                    <i class="bi bi-box-seam me-2 text-orange"></i>Đơn mua của tôi
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2" href="@Url.Action("Index", "Wishlist")">
+                                    <i class="bi bi-heart me-2 text-orange"></i>Sản phẩm yêu thích
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "m-0" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="dropdown-item py-2 text-danger">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
+                                    </button>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center gap-2">
+                        <a class="btn btn-outline-orange btn-sm" href="@Url.Action("Login", "Account")">Đăng nhập</a>
+                        <a class="btn btn-orange btn-sm d-none d-sm-inline-flex" href="@Url.Action("Register", "Account")">Đăng ký</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Mobile Navigation Offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileNav" aria-labelledby="mobileNavLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title brand-logo" id="mobileNavLabel">
+            <i class="bi bi-lightning-charge-fill"></i> Sport<span class="text-orange">Hub</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form action="@Url.Action("Index", "Product")" method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Tìm sản phẩm..." value="@Request.QueryString["q"]">
+                <button class="btn btn-orange" type="submit"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+        <ul class="nav flex-column gap-2 fw-semibold">
+            <li class="nav-item">
+                <a class="nav-link text-dark py-2 px-3 rounded-2 @(ViewContext.RouteData.Values["action"]?.ToString() == "Index" && ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "bg-orange-light text-orange" : "")" 
+                   href="@Url.Action("Index", "Home")">
+                    <i class="bi bi-house-door me-2"></i>Trang chủ
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark py-2 px-3 rounded-2 @(ViewContext.RouteData.Values["controller"]?.ToString() == "Product" && Request.QueryString["onSale"] == null ? "bg-orange-light text-orange" : "")" 
+                   href="@Url.Action("Index", "Product")">
+                    <i class="bi bi-grid me-2"></i>Tất cả sản phẩm
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-danger py-2 px-3 rounded-2" href="@Url.Action("Index", "Product", new { onSale = true })">
+                    <i class="bi bi-percent me-2"></i>Sản phẩm khuyến mãi
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark py-2 px-3 rounded-2" href="@Url.Action("About", "Home")">
+                    <i class="bi bi-info-circle me-2"></i>Về SportHub
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark py-2 px-3 rounded-2" href="@Url.Action("Contact", "Home")">
+                    <i class="bi bi-telephone me-2"></i>Liên hệ & Cửa hàng
+                </a>
+            </li>
+        </ul>
+        <hr />
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="d-grid gap-2 mt-3">
+                <a class="btn btn-outline-orange" href="@Url.Action("Login", "Account")">Đăng nhập</a>
+                <a class="btn btn-orange" href="@Url.Action("Register", "Account")">Tạo tài khoản</a>
+            </div>
+        }
+    </div>
+</div>
+

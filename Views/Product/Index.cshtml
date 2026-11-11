@@ -1,0 +1,270 @@
+@model ShopTheThao.ViewModels.ProductListViewModel
+@{
+    ViewBag.Title = !string.IsNullOrEmpty(Model.SelectedCategoryName) ? Model.SelectedCategoryName : "Tất cả sản phẩm";
+}
+
+<div class="wrap py-4">
+    <!-- Breadcrumb -->
+    <nav class="sport-breadcrumb" aria-label="breadcrumb">
+        <ol>
+            <li><a href="@Url.Action("Index", "Home")"><i class="bi bi-house-door me-1"></i>Trang chủ</a></li>
+            <li><a href="@Url.Action("Index", "Product")">Sản phẩm</a></li>
+            @if (!string.IsNullOrEmpty(Model.SelectedCategoryName))
+            {
+                <li class="active">@Model.SelectedCategoryName</li>
+            }
+            else if (!string.IsNullOrEmpty(Model.q))
+            {
+                <li class="active">Tìm kiếm: "@Model.q"</li>
+            }
+        </ol>
+    </nav>
+
+    <!-- Page Header Banner -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4 pb-3 border-bottom" style="border-color: var(--line-border) !important;">
+        <div>
+            <span class="text-orange fw-bold text-uppercase" style="letter-spacing: 0.08em; font-size: 0.85rem;">
+                <i class="bi bi-shield-check me-1"></i> 100% Chính Hãng
+            </span>
+            <h1 class="fw-bold mb-1" style="font-size: clamp(1.8rem, 3vw, 2.4rem);">
+                @(string.IsNullOrEmpty(Model.SelectedCategoryName) ? "Bộ Sưu Tập Thể Thao" : Model.SelectedCategoryName)
+            </h1>
+            <p class="text-muted mb-0">Tìm thấy <strong>@Model.TotalItems</strong> sản phẩm chất lượng cao</p>
+        </div>
+
+        <!-- Sort Control -->
+        <div class="d-flex align-items-center gap-2">
+            <!-- Mobile filter toggle button -->
+            <button class="btn btn-outline-orange d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas">
+                <i class="bi bi-funnel"></i> Bộ lọc
+            </button>
+
+            <form method="get" action="@Url.Action("Index", "Product")" class="d-flex align-items-center gap-2 m-0" id="sortForm">
+                @if (Model.CategoryId.HasValue) { <input type="hidden" name="CategoryId" value="@Model.CategoryId" /> }
+                @if (Model.BrandId.HasValue) { <input type="hidden" name="BrandId" value="@Model.BrandId" /> }
+                @if (!string.IsNullOrEmpty(Model.q)) { <input type="hidden" name="q" value="@Model.q" /> }
+                @if (Model.MinPrice.HasValue) { <input type="hidden" name="MinPrice" value="@Model.MinPrice" /> }
+                @if (Model.MaxPrice.HasValue) { <input type="hidden" name="MaxPrice" value="@Model.MaxPrice" /> }
+                @if (!string.IsNullOrEmpty(Model.Size)) { <input type="hidden" name="Size" value="@Model.Size" /> }
+                @if (Model.OnSale.HasValue && Model.OnSale.Value) { <input type="hidden" name="OnSale" value="true" /> }
+
+                <label class="text-muted fw-semibold small text-nowrap d-none d-sm-inline" for="sortSelect">Sắp xếp:</label>
+                <select name="SortBy" id="sortSelect" class="form-select form-select-sm" style="min-width: 170px;" onchange="document.getElementById('sortForm').submit()">
+                    <option value="newest" @(Model.SortBy == "newest" ? "selected" : "")>Mới nhất</option>
+                    <option value="best_seller" @(Model.SortBy == "best_seller" ? "selected" : "")>Bán chạy nhất</option>
+                    <option value="price_asc" @(Model.SortBy == "price_asc" ? "selected" : "")>Giá: Thấp đến cao</option>
+                    <option value="price_desc" @(Model.SortBy == "price_desc" ? "selected" : "")>Giá: Cao đến thấp</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Desktop Filter Sidebar -->
+        <aside class="col-lg-3 d-none d-lg-block">
+            <div class="filter-card">
+                <div class="filter-title">
+                    <span><i class="bi bi-funnel text-orange me-2"></i>Bộ lọc tìm kiếm</span>
+                    @if (Model.CategoryId.HasValue || Model.BrandId.HasValue || Model.MinPrice.HasValue || Model.MaxPrice.HasValue || !string.IsNullOrEmpty(Model.Size) || Model.OnSale == true || !string.IsNullOrEmpty(Model.q))
+                    {
+                        <a href="@Url.Action("Index", "Product")" class="text-danger small fw-bold">Xóa lọc</a>
+                    }
+                </div>
+
+                <!-- 1. Danh mục -->
+                <div class="filter-section">
+                    <div class="filter-heading">Danh mục môn tập</div>
+                    <ul class="filter-list">
+                        <li class="filter-list-item">
+                            <a href="@Url.Action("Index", "Product", new { BrandId = Model.BrandId, q = Model.q, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })" 
+                               class="@(!Model.CategoryId.HasValue ? "active" : "")">
+                                <span>Tất cả môn</span>
+                            </a>
+                        </li>
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <li class="filter-list-item">
+                                <a href="@Url.Action("Index", "Product", new { CategoryId = cat.Id, BrandId = Model.BrandId, q = Model.q, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })"
+                                   class="@(Model.CategoryId == cat.Id ? "active" : "")">
+                                    <span>@cat.Name</span>
+                                    <span class="badge rounded-pill">@(cat.Products?.Count(p => p.IsActive) ?? 0)</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- 2. Thương hiệu -->
+                @if (Model.Brands != null && Model.Brands.Any())
+                {
+                    <div class="filter-section">
+                        <div class="filter-heading">Thương hiệu</div>
+                        <ul class="filter-list">
+                            <li class="filter-list-item">
+                                <a href="@Url.Action("Index", "Product", new { CategoryId = Model.CategoryId, q = Model.q, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })"
+                                   class="@(!Model.BrandId.HasValue ? "active" : "")">
+                                    <span>Tất cả thương hiệu</span>
+                                </a>
+                            </li>
+                            @foreach (var br in Model.Brands)
+                            {
+                                <li class="filter-list-item">
+                                    <a href="@Url.Action("Index", "Product", new { BrandId = br.Id, CategoryId = Model.CategoryId, q = Model.q, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })"
+                                       class="@(Model.BrandId == br.Id ? "active" : "")">
+                                        <span>@br.Name</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <!-- 3. Khoảng giá -->
+                <div class="filter-section">
+                    <div class="filter-heading">Khoảng giá</div>
+                    <ul class="filter-list">
+                        <li class="filter-list-item">
+                            <a href="@Url.Action("Index", "Product", new { CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })"
+                               class="@(!Model.MinPrice.HasValue && !Model.MaxPrice.HasValue ? "active" : "")">
+                                Tất cả mức giá
+                            </a>
+                        </li>
+                        <li class="filter-list-item">
+                            <a href="@Url.Action("Index", "Product", new { MaxPrice = 500000, CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })"
+                               class="@(Model.MaxPrice == 500000 && !Model.MinPrice.HasValue ? "active" : "")">
+                                Dưới 500.000₫
+                            </a>
+                        </li>
+                        <li class="filter-list-item">
+                            <a href="@Url.Action("Index", "Product", new { MinPrice = 500000, MaxPrice = 1000000, CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })"
+                               class="@(Model.MinPrice == 500000 && Model.MaxPrice == 1000000 ? "active" : "")">
+                                500.000₫ - 1.000.000₫
+                            </a>
+                        </li>
+                        <li class="filter-list-item">
+                            <a href="@Url.Action("Index", "Product", new { MinPrice = 1000000, MaxPrice = 2000000, CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })"
+                               class="@(Model.MinPrice == 1000000 && Model.MaxPrice == 2000000 ? "active" : "")">
+                                1.000.000₫ - 2.000.000₫
+                            </a>
+                        </li>
+                        <li class="filter-list-item">
+                            <a href="@Url.Action("Index", "Product", new { MinPrice = 2000000, CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })"
+                               class="@(Model.MinPrice == 2000000 && !Model.MaxPrice.HasValue ? "active" : "")">
+                                Trên 2.000.000₫
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 4. Kích cỡ (Size) -->
+                @if (Model.AvailableSizes != null && Model.AvailableSizes.Any())
+                {
+                    <div class="filter-section">
+                        <div class="filter-heading">Chọn kích cỡ (Size)</div>
+                        <div class="size-picker">
+                            @foreach (var s in Model.AvailableSizes)
+                            {
+                                <a href="@Url.Action("Index", "Product", new { Size = (Model.Size == s ? null : s), CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, OnSale = Model.OnSale, SortBy = Model.SortBy })"
+                                   class="size-pill @(Model.Size == s ? "active" : "")">
+                                    @s
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- 5. Khuyến mãi -->
+                <div class="filter-section">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="onSaleSwitch" @(Model.OnSale == true ? "checked" : "")
+                               onchange="window.location.href='@Url.Action("Index", "Product", new { OnSale = (Model.OnSale == true ? (bool?)null : true), CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, SortBy = Model.SortBy })'">
+                        <label class="form-check-label fw-bold text-danger" for="onSaleSwitch">
+                            <i class="bi bi-tag-fill me-1"></i> Chỉ xem hàng giảm giá
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Product Grid Content -->
+        <main class="col-lg-9">
+            @if (Model.Products != null && Model.Products.Any())
+            {
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="col">
+                            @Html.Partial("_ProductCard", product)
+                        </div>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                if (Model.TotalPages > 1)
+                {
+                    <div class="pagination-sport">
+                        @if (Model.Page > 1)
+                        {
+                            <a class="page-sport-btn" href="@Url.Action("Index", "Product", new { Page = Model.Page - 1, CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        }
+
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <a class="page-sport-btn @(Model.Page == i ? "active" : "")" 
+                               href="@Url.Action("Index", "Product", new { Page = i, CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })">
+                                @i
+                            </a>
+                        }
+
+                        @if (Model.Page < Model.TotalPages)
+                        {
+                            <a class="page-sport-btn" href="@Url.Action("Index", "Product", new { Page = Model.Page + 1, CategoryId = Model.CategoryId, BrandId = Model.BrandId, q = Model.q, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy })">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <!-- Empty State -->
+                <div class="text-center py-5 bg-surface border rounded-4 p-5" style="border-color: var(--line-border) !important;">
+                    <div class="display-1 text-orange opacity-50 mb-3"><i class="bi bi-search"></i></div>
+                    <h3 class="fw-bold mb-2">Không tìm thấy sản phẩm nào!</h3>
+                    <p class="text-muted mb-4">Vui lòng thử tìm kiếm với từ khóa khác hoặc xóa bớt các bộ lọc đang chọn.</p>
+                    <a href="@Url.Action("Index", "Product")" class="btn btn-orange">
+                        <i class="bi bi-arrow-repeat me-1"></i> Xóa tất cả bộ lọc
+                    </a>
+                </div>
+            }
+        </main>
+    </div>
+</div>
+
+<!-- Mobile Filter Offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title fw-bold" id="filterOffcanvasLabel">
+            <i class="bi bi-funnel text-orange me-2"></i>Bộ lọc sản phẩm
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- Re-use links for mobile -->
+        <div class="mb-4">
+            <h6 class="fw-bold">Danh mục</h6>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-sm @(!Model.CategoryId.HasValue ? "btn-orange" : "btn-outline-orange")" href="@Url.Action("Index", "Product")">Tất cả</a>
+                @foreach (var c in Model.Categories)
+                {
+                    <a class="btn btn-sm @(Model.CategoryId == c.Id ? "btn-orange" : "btn-outline-orange")" href="@Url.Action("Index", "Product", new { CategoryId = c.Id })">@c.Name</a>
+                }
+            </div>
+        </div>
+        <hr />
+        <a href="@Url.Action("Index", "Product")" class="btn btn-light-orange w-100">Xóa bộ lọc</a>
+    </div>
+</div>
+

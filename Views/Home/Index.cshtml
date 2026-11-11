@@ -78,7 +78,7 @@
             @foreach (var c in Model.Categories)
             {
                 var ic = icons.ContainsKey(c.Slug ?? "") ? icons[c.Slug] : "bi-trophy";
-                <a class="cat-card" href="@Url.Action("Index", "Product", new { category = c.Id })"><i class="bi @ic"></i><b>@c.Name</b></a>
+                <a class="cat-card" href="@Url.Action("Index", "Product", new { CategoryId = c.Id })"><i class="bi @ic"></i><b>@c.Name</b></a>
             }
         </div>
     </section>
