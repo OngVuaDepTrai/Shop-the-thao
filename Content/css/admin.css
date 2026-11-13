@@ -1,0 +1,394 @@
+﻿
+/* ========================================
+   1. COLOR SYSTEM
+======================================== */
+
+:root {
+    --orange-primary: #F97316;
+    --orange-secondary: #EA580C;
+    --orange-dark: #C2410C;
+    --orange-light: #FFEDD5;
+    --yellow-accent: #FACC15;
+    --bg-main: #111827;
+    --bg-sidebar: #0B1220;
+    --bg-card: #1F2937;
+    --bg-hover: #293548;
+    --text-primary: #F9FAFB;
+    --text-secondary: #9CA3AF;
+    --border-color: #374151;
+    --sidebar-width: 260px;
+    --topbar-height: 76px;
+}
+
+/* ========================================
+   2. GLOBAL
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    font-size: 14px;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+.admin-wrapper {
+    min-height: 100vh;
+}
+
+/* ========================================
+   3. SIDEBAR
+======================================== */
+
+.admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    z-index: 1050;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-brand {
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
+    padding: 0 22px;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient( 135deg, var(--orange-primary), var(--orange-dark) );
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+}
+
+.brand-text h5 {
+    font-size: 17px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+    .brand-text h5 span {
+        color: var(--orange-primary);
+    }
+
+.brand-text small {
+    color: var(--text-secondary);
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.sidebar-close {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 18px;
+}
+
+.sidebar-content {
+    flex: 1;
+    padding: 20px 14px;
+    overflow-y: auto;
+}
+
+.sidebar-section-title {
+    color: #6B7280;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    padding: 18px 12px 9px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: var(--text-secondary);
+    padding: 12px 14px;
+    margin-bottom: 5px;
+    border-radius: 9px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+    .sidebar-link i {
+        font-size: 18px;
+        width: 22px;
+        text-align: center;
+    }
+
+    .sidebar-link:hover {
+        color: white;
+        background: var(--bg-hover);
+    }
+
+    .sidebar-link.active {
+        color: white;
+        background: linear-gradient( 90deg, rgba(249, 115, 22, 0.22), rgba(249, 115, 22, 0.08) );
+        border-left: 3px solid var(--orange-primary);
+        padding-left: 11px;
+    }
+
+        .sidebar-link.active i {
+            color: var(--orange-primary);
+        }
+
+.sidebar-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 17px 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.sidebar-footer-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(249, 115, 22, 0.15);
+    color: var(--orange-primary);
+    font-size: 17px;
+}
+
+.sidebar-footer strong,
+.sidebar-footer small {
+    display: block;
+}
+
+.sidebar-footer strong {
+    font-size: 12px;
+}
+
+.sidebar-footer small {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   4. MAIN AREA
+======================================== */
+
+.admin-main {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========================================
+   5. TOPBAR
+======================================== */
+
+.admin-topbar {
+    height: var(--topbar-height);
+    background: var(--bg-sidebar);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.topbar-left,
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.sidebar-toggle {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 9px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .sidebar-toggle:hover {
+        background: var(--bg-hover);
+        color: var(--orange-primary);
+    }
+
+.topbar-heading h5 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.topbar-heading small {
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(249, 115, 22, 0.18);
+    color: var(--orange-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+}
+
+.profile-info strong,
+.profile-info small {
+    display: block;
+}
+
+.profile-info strong {
+    font-size: 12px;
+}
+
+.profile-info small {
+    color: var(--text-secondary);
+    font-size: 10px;
+}
+
+.logout-button {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border-color);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+    .logout-button:hover {
+        background: rgba(249, 115, 22, 0.15);
+        border-color: var(--orange-primary);
+        color: var(--orange-primary);
+    }
+
+/* ========================================
+   6. CONTENT
+======================================== */
+
+.admin-content {
+    flex: 1;
+    padding: 30px;
+}
+
+.admin-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 30px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+/* ========================================
+   7. MOBILE OVERLAY
+======================================== */
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1040;
+}
+
+/* ========================================
+   8. RESPONSIVE
+======================================== */
+
+@media (max-width: 991.98px) {
+
+    .admin-sidebar {
+        transform: translateX(-100%);
+    }
+
+        .admin-sidebar.show {
+            transform: translateX(0);
+        }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
+
+    .admin-main {
+        margin-left: 0;
+    }
+
+    .admin-topbar {
+        padding: 0 20px;
+    }
+
+    .admin-content {
+        padding: 22px;
+    }
+}
+
+@media (max-width: 575.98px) {
+
+    .admin-topbar {
+        padding: 0 14px;
+    }
+
+    .topbar-heading small {
+        display: none;
+    }
+
+    .profile-info {
+        display: none;
+    }
+
+    .admin-content {
+        padding: 16px;
+    }
+
+    .admin-footer {
+        padding: 15px;
+        flex-direction: column;
+    }
+}
