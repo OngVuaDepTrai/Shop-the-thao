@@ -1,0 +1,79 @@
+﻿@model ShopTheThao.ViewModels.BrandFormViewModel
+
+@{
+    ViewBag.Title = "Sửa thương hiệu";
+}
+
+<div class="admin-page-head">
+
+    <div>
+        <h4>Sửa thương hiệu</h4>
+        <p class="subtitle mb-0">Cập nhật thông tin thương hiệu "@Model.Name".</p>
+    </div>
+
+    <a href="@Url.Action("Index", "Brands", new { area = "Admin" })"
+       class="btn-admin btn-admin-outline">
+
+        <i class="bi bi-arrow-left"></i>
+        <span>Quay lại</span>
+    </a>
+
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-body">
+
+        @using (Html.BeginForm("Edit", "Brands",
+            new { area = "Admin" },
+            FormMethod.Post,
+            new { @class = "admin-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id)
+            @Html.ValidationSummary(true)
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label class="form-label" for="Name">Tên thương hiệu <span class="required-mark">*</span></label>
+
+                    @Html.TextBoxFor(m => m.Name, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Ví dụ: Nike",
+                        maxlength = "100"
+                    })
+
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="LogoUrl">Đường dẫn logo</label>
+
+                    @Html.TextBoxFor(m => m.LogoUrl, new
+                    {
+                        @class = "form-control",
+                        placeholder = "~/Content/images/brands/nike.png"
+                    })
+
+                    <span class="form-hint">Không bắt buộc. Có thể để trống.</span>
+                    @Html.ValidationMessageFor(m => m.LogoUrl, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mt-4">
+                <button type="submit" class="btn-admin btn-admin-primary">
+                    <i class="bi bi-check-lg"></i>
+                    <span>Lưu thay đổi</span>
+                </button>
+
+                <a href="@Url.Action("Index", "Brands", new { area = "Admin" })"
+                   class="btn-admin btn-admin-outline">
+                    Hủy
+                </a>
+            </div>
+        }
+
+    </div>
+</div>

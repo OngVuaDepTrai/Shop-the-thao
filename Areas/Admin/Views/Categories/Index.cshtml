@@ -1,0 +1,159 @@
+﻿@using System.Linq
+@model IEnumerable<ShopTheThao.Models.Category>
+
+@{
+    ViewBag.Title = "Danh mục";
+
+    var categories = Model.ToList();
+}
+
+<div class="admin-page-head">
+
+    <div>
+        <h4>Danh mục sản phẩm</h4>
+        <p class="subtitle mb-0">Quản lý các nhóm sản phẩm hiển thị trên cửa hàng.</p>
+    </div>
+
+    <a href="@Url.Action("Create", "Categories", new { area = "Admin" })"
+       class="btn-admin btn-admin-primary">
+
+        <i class="bi bi-plus-lg"></i>
+        <span>Thêm danh mục</span>
+    </a>
+
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="admin-alert admin-alert-success">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="admin-alert admin-alert-danger">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+    </div>
+}
+
+<div class="admin-card">
+
+    @if (categories.Count > 0)
+    {
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+
+                <thead>
+                    <tr>
+                        <th>Danh mục</th>
+                        <th>Slug</th>
+                        <th>Sản phẩm</th>
+                        <th>Trạng thái</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in categories)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+
+                                    @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                                    {
+                                        <img class="admin-thumb"
+                                             src="@item.ImageUrl"
+                                             alt="@item.Name" />
+                                    }
+                                    else
+                                    {
+                                        <div class="admin-thumb-placeholder">
+                                            <i class="bi bi-tag"></i>
+                                        </div>
+                                    }
+
+                                    <div>
+                                        <strong>@item.Name</strong>
+                                        <small class="d-block text-secondary">Mã #@item.Id</small>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td>
+                                @(string.IsNullOrWhiteSpace(item.Slug) ? "—" : item.Slug)
+                            </td>
+
+                            <td>
+                                <span class="admin-count">@item.Products.Count sản phẩm</span>
+                            </td>
+
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="admin-badge admin-badge-active">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        Đang hiển thị
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="admin-badge admin-badge-inactive">
+                                        <i class="bi bi-eye-slash-fill"></i>
+                                        Đã ẩn
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                <div class="admin-actions">
+
+                                    <a href="@Url.Action("Edit", "Categories", new { area = "Admin", id = item.Id })"
+                                       class="btn-admin btn-admin-sm btn-admin-outline"
+                                       title="Sửa danh mục">
+
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+
+                                    @using (Html.BeginForm("Delete", "Categories",
+                                        new { area = "Admin", id = item.Id },
+                                        FormMethod.Post,
+                                        new { @class = "m-0", onsubmit = "return confirm('Bạn có chắc muốn xóa danh mục này?');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit"
+                                                class="btn-admin btn-admin-sm btn-admin-danger"
+                                                title="Xóa danh mục">
+
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    }
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="admin-empty">
+            <i class="bi bi-tags"></i>
+            <strong>Chưa có danh mục nào</strong>
+            <span>Bấm "Thêm danh mục" để tạo danh mục sản phẩm đầu tiên.</span>
+        </div>
+    }
+
+</div>
+
+<div class="admin-count mt-3">
+    Tổng cộng @categories.Count danh mục
+</div>

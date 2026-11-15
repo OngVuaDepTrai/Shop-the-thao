@@ -1,0 +1,101 @@
+﻿@model ShopTheThao.ViewModels.CategoryFormViewModel
+
+@{
+    ViewBag.Title = "Thêm danh mục";
+}
+
+<div class="admin-page-head">
+
+    <div>
+        <h4>Thêm danh mục</h4>
+        <p class="subtitle mb-0">Tạo nhóm sản phẩm mới cho cửa hàng.</p>
+    </div>
+
+    <a href="@Url.Action("Index", "Categories", new { area = "Admin" })"
+       class="btn-admin btn-admin-outline">
+
+        <i class="bi bi-arrow-left"></i>
+        <span>Quay lại</span>
+    </a>
+
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-body">
+
+        @using (Html.BeginForm("Create", "Categories",
+            new { area = "Admin" },
+            FormMethod.Post,
+            new { @class = "admin-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label class="form-label" for="Name">Tên danh mục <span class="required-mark">*</span></label>
+
+                    @Html.TextBoxFor(m => m.Name, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Ví dụ: Bóng đá",
+                        maxlength = "100"
+                    })
+
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="Slug">Slug</label>
+
+                    @Html.TextBoxFor(m => m.Slug, new
+                    {
+                        @class = "form-control",
+                        placeholder = "bo-da",
+                        maxlength = "200"
+                    })
+
+                    <span class="form-hint">Bỏ trống để hệ thống tự tạo từ tên danh mục.</span>
+                    @Html.ValidationMessageFor(m => m.Slug, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label" for="ImageUrl">Đường dẫn ảnh</label>
+
+                    @Html.TextBoxFor(m => m.ImageUrl, new
+                    {
+                        @class = "form-control",
+                        placeholder = "~/Content/images/categories/bong-da.jpg"
+                    })
+
+                    <span class="form-hint">Không bắt buộc. Có thể để trống.</span>
+                    @Html.ValidationMessageFor(m => m.ImageUrl, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-12">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input" })
+                        <label class="form-check-label" for="IsActive">
+                            Hiển thị danh mục trên cửa hàng
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mt-4">
+                <button type="submit" class="btn-admin btn-admin-primary">
+                    <i class="bi bi-check-lg"></i>
+                    <span>Lưu danh mục</span>
+                </button>
+
+                <a href="@Url.Action("Index", "Categories", new { area = "Admin" })"
+                   class="btn-admin btn-admin-outline">
+                    Hủy
+                </a>
+            </div>
+        }
+
+    </div>
+</div>
