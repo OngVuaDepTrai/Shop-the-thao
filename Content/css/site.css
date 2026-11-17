@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     color-scheme: dark;
     --orange: #F97316;
     --orange-hover: #FB923C;
@@ -16,33 +16,41 @@
 }
 
 html, body {
-    min-height: 100%
+    min-height: 100%;
 }
 
 body {
-    background: radial-gradient(1100px 520px at 88% -8%,rgba(249,115,22,.16),transparent 70%), radial-gradient(900px 480px at -5% 30%,rgba(250,204,21,.06),transparent 70%),var(--bg);
+    background: radial-gradient(1100px 520px at 88% -8%,rgba(249,115,22,.16),transparent 70%), radial-gradient(900px 480px at -5% 30%,rgba(250,204,21,.06),transparent 70%), var(--bg);
     background-attachment: fixed;
     color: var(--text);
-    font-family: 'Be Vietnam Pro','Segoe UI',sans-serif
+    font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
 }
 
 a {
-    color: var(--orange-dark)
+    color: var(--orange-dark);
 }
 
     a:hover {
-        color: var(--orange-hover)
+        color: var(--orange-hover);
     }
 
 .text-orange {
-    color: var(--orange) !important
+    color: var(--orange) !important;
 }
 
 .text-muted {
-    color: var(--muted) !important
+    color: var(--muted) !important;
 }
 
-/* Nút */
+.fw-extrabold {
+    font-weight: 800;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* ===== Nút bấm chuẩn SportHub ===== */
 .btn-orange {
     background: var(--orange);
     border: 0;
@@ -50,14 +58,22 @@ a {
     font-weight: 600;
     border-radius: 12px;
     padding: .65rem 1.2rem;
-    transition: .2s
+    transition: .2s;
+    white-space: nowrap;
 }
 
-    .btn-orange:hover {
+    .btn-orange:hover:not(:disabled) {
         background: var(--orange-hover);
         color: #fff;
         transform: translateY(-1px);
-        box-shadow: 0 8px 20px rgba(249,115,22,.4)
+        box-shadow: 0 8px 20px rgba(249,115,22,.4);
+    }
+
+    .btn-orange:disabled {
+        background: #4B3526;
+        color: var(--muted);
+        cursor: not-allowed;
+        opacity: .75;
     }
 
 .btn-outline-orange {
@@ -65,48 +81,115 @@ a {
     color: var(--orange);
     font-weight: 600;
     border-radius: 12px;
-    background: transparent
+    background: transparent;
+    transition: .2s;
+    white-space: nowrap;
 }
 
-    .btn-outline-orange:hover {
+    .btn-outline-orange:hover,
+    .btn-outline-orange.active {
         background: var(--orange);
-        color: #fff
+        color: #fff;
     }
 
-/* Form */
-.form-control {
+.btn-white {
+    background: #fff;
+    color: #C2410C;
+    font-weight: 700;
+    border: 0;
+    border-radius: 14px;
+    padding: .85rem 1.9rem;
+    transition: .2s;
+    box-shadow: 0 10px 24px rgba(0,0,0,.2);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+    .btn-white:hover {
+        background: var(--accent);
+        color: #431407;
+        transform: translateY(-2px);
+    }
+
+.btn-ghost {
+    background: rgba(0,0,0,.22);
+    color: #fff;
+    font-weight: 700;
+    border: 2px solid rgba(255,255,255,.55);
+    border-radius: 14px;
+    padding: .8rem 1.7rem;
+    transition: .2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+    .btn-ghost:hover {
+        background: #fff;
+        color: #C2410C;
+    }
+
+/* ===== Form & Input ===== */
+.form-control, .form-select {
     background: var(--input);
     color: var(--text);
-    border-color: var(--line)
+    border-color: var(--line);
 }
 
     .form-control::placeholder {
-        color: #8F7360
+        color: #8F7360;
     }
 
-    .form-control:focus {
+    .form-control:focus, .form-select:focus {
         background: var(--input);
         color: var(--text);
         border-color: var(--orange);
-        box-shadow: 0 0 0 .2rem rgba(249,115,22,.25)
+        box-shadow: 0 0 0 .2rem rgba(249,115,22,.25);
     }
 
-/* Khung rộng + thanh menu */
+.form-check-input:checked {
+    background-color: var(--orange);
+    border-color: var(--orange);
+}
+
+.input-ico {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+    .input-ico i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--orange);
+    }
+
+    .input-ico .form-control {
+        padding: .8rem .9rem .8rem 2.6rem;
+        border-radius: 12px;
+        background: var(--input) !important;
+        color: var(--text);
+        border: 1.5px solid var(--line) !important;
+    }
+
+/* ===== Khung rộng + Thanh Header ===== */
 .wrap {
     width: 100%;
     max-width: 1600px;
     margin: 0 auto;
-    padding: 0 clamp(1rem,4vw,4rem)
+    padding: 0 clamp(1rem,4vw,4rem);
 }
 
 .topbar {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(18,12,8,.82);
-    backdrop-filter: blur(12px);
+    background: rgba(18,12,8,.86);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--line);
-    padding: .85rem 0
+    padding: .85rem 0;
 }
 
 .brand-logo {
@@ -117,16 +200,16 @@ a {
     font-size: 1.35rem;
     color: var(--orange);
     text-decoration: none;
-    white-space: nowrap
+    white-space: nowrap;
 }
 
     .brand-logo:hover {
-        color: var(--orange-hover)
+        color: var(--orange-hover);
     }
 
 .main-nav {
     gap: .25rem;
-    margin-left: .5rem
+    margin-left: .5rem;
 }
 
     .main-nav a {
@@ -135,19 +218,21 @@ a {
         font-weight: 600;
         color: var(--text);
         text-decoration: none;
-        transition: .2s
+        transition: .2s;
+        white-space: nowrap;
     }
 
-        .main-nav a:hover {
+        .main-nav a:hover,
+        .main-nav a.active {
             background: var(--orange-light);
-            color: var(--orange)
+            color: var(--orange);
         }
 
 .nav-search {
     position: relative;
     width: 100%;
-    max-width: 380px;
-    margin-left: auto
+    max-width: 360px;
+    margin-left: auto;
 }
 
     .nav-search i {
@@ -155,7 +240,7 @@ a {
         left: 14px;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--orange)
+        color: var(--orange);
     }
 
     .nav-search input {
@@ -164,35 +249,1074 @@ a {
         border: 1.5px solid var(--line);
         background: var(--card);
         border-radius: 12px;
-        padding: .6rem 1rem .6rem 2.5rem;
+        padding: .58rem 1rem .58rem 2.5rem;
         outline: none;
-        transition: .2s
+        transition: .2s;
+        font-size: .92rem;
     }
 
         .nav-search input:focus {
             border-color: var(--orange);
-            box-shadow: 0 0 0 .2rem rgba(249,115,22,.22)
+            box-shadow: 0 0 0 .2rem rgba(249,115,22,.22);
         }
 
-/* Cho trang đăng nhập / hồ sơ (nền tối) */
-.auth-card, .profile-card {
-    background: var(--card) !important;
-    border-color: var(--line) !important
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    color: var(--text);
+    display: inline-grid;
+    place-items: center;
+    text-decoration: none;
+    transition: .2s;
 }
 
-.input-ico .form-control {
-    background: var(--input) !important;
+    .icon-btn:hover {
+        border-color: var(--orange);
+        color: var(--orange);
+        background: var(--orange-light);
+    }
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--orange);
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 800;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 99px;
+    display: grid;
+    place-items: center;
+    padding: 0 4px;
+}
+
+.mobile-nav-link {
+    padding: .65rem .9rem;
+    border-radius: 10px;
     color: var(--text);
-    border-color: var(--line) !important
+    text-decoration: none;
+    font-weight: 600;
+    transition: .2s;
+}
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link.active {
+        background: var(--orange-light);
+        color: var(--orange);
+    }
+
+/* ===== Thông báo & Auth/Profile tương thích ===== */
+.auth-card, .profile-card {
+    background: var(--card) !important;
+    border-color: var(--line) !important;
 }
 
 .alert-orange {
     background: var(--orange-light);
     color: var(--orange-dark);
-    border: 1px solid var(--line)
+    border: 1px solid var(--line);
+    border-radius: 14px;
 }
 
 .validation-summary-errors {
     background: #3A1414 !important;
-    color: #FCA5A5 !important
+    color: #FCA5A5 !important;
+}
+
+/* ===== Breadcrumb ===== */
+.sp-breadcrumb {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: .75rem 1.25rem;
+}
+
+    .sp-breadcrumb .breadcrumb-item a {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 500;
+        transition: .2s;
+    }
+
+        .sp-breadcrumb .breadcrumb-item a:hover {
+            color: var(--orange);
+        }
+
+    .sp-breadcrumb .breadcrumb-item.active {
+        color: var(--orange);
+        font-weight: 600;
+    }
+
+    .sp-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+        color: var(--muted);
+    }
+
+/* ===== Tiêu đề mục & Thẻ sản phẩm dùng chung (_ProductCard) ===== */
+.sec {
+    margin-top: clamp(2.5rem,5vw,4.5rem);
+}
+
+.sec-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 1.6rem;
+}
+
+    .sec-head h2 {
+        font-weight: 800;
+        margin: 0;
+        font-size: clamp(1.5rem,2.4vw,2.05rem);
+        letter-spacing: -.01em;
+    }
+
+        .sec-head h2::after {
+            content: "";
+            display: block;
+            width: 56px;
+            height: 5px;
+            border-radius: 9px;
+            background: linear-gradient(90deg,var(--orange),var(--accent));
+            margin-top: .55rem;
+        }
+
+    .sec-head a {
+        font-weight: 600;
+        text-decoration: none;
+        color: var(--orange);
+        padding: .4rem .9rem;
+        border-radius: 10px;
+        transition: .2s;
+    }
+
+        .sec-head a:hover {
+            background: var(--orange-light);
+        }
+
+.p-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.p-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.p-card {
+    position: relative;
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text);
+    transition: .28s;
+    height: 100%;
+}
+
+    .p-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--orange);
+        box-shadow: 0 22px 46px rgba(249,115,22,.2);
+        color: var(--text);
+    }
+
+.p-thumb {
+    position: relative;
+    aspect-ratio: 5/4;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 38%,rgba(249,115,22,.28),transparent 62%), linear-gradient(145deg,#2E1B0E,#1B120C);
+}
+
+    .p-thumb > i {
+        display: grid;
+        place-items: center;
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        background: rgba(249,115,22,.14);
+        border: 1px solid rgba(249,115,22,.4);
+        color: var(--orange);
+        font-size: 2.6rem;
+        transition: .35s;
+    }
+
+    .p-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: .45s;
+    }
+
+.p-card:hover .p-thumb img {
+    transform: scale(1.08);
+}
+
+.p-card:hover .p-thumb > i {
+    transform: scale(1.12) rotate(-6deg);
+    background: var(--orange);
+    color: #fff;
+}
+
+.p-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: #DC2626;
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 700;
+    padding: .3rem .8rem;
+    border-radius: 99px;
+    box-shadow: 0 6px 14px rgba(220,38,38,.4);
+}
+
+.p-go {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: .28s;
+}
+
+.p-card:hover .p-go {
+    opacity: 1;
+    transform: none;
+}
+
+.p-body {
+    padding: 1.15rem 1.35rem 1.4rem;
+}
+
+.p-cat {
+    color: var(--orange);
+    text-transform: uppercase;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+}
+
+.p-name {
+    font-weight: 700;
+    margin: .35rem 0 .7rem;
+    min-height: 2.6em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.p-price b {
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.p-price s {
+    color: var(--muted);
+    font-size: .88rem;
+    margin-left: .5rem;
+}
+
+.p-sold {
+    color: var(--muted);
+}
+
+/* ===== Trang Danh sách Sản phẩm (Product/Index) ===== */
+.shop-banner {
+    background: radial-gradient(circle at 90% 20%, rgba(249,115,22,.22), transparent 55%), linear-gradient(135deg, #24160E, #1B120C);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: clamp(1.5rem, 3vw, 2.4rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.shop-banner-tag {
+    display: inline-block;
+    background: var(--orange-light);
+    color: var(--orange);
+    border: 1px solid rgba(249,115,22,.35);
+    padding: .3rem .9rem;
+    border-radius: 99px;
+    font-size: .8rem;
+    font-weight: 700;
+    margin-bottom: .6rem;
+}
+
+.shop-banner-title {
+    font-weight: 800;
+    font-size: clamp(1.6rem, 2.8vw, 2.3rem);
+    margin-bottom: .35rem;
+}
+
+.shop-banner-sub {
+    color: var(--muted);
+}
+
+.filter-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.4rem;
+    position: sticky;
+    top: 90px;
+}
+
+.filter-group {
+    margin-bottom: 1.35rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
+}
+
+    .filter-group:last-of-type {
+        border-bottom: 0;
+        padding-bottom: .5rem;
+    }
+
+.filter-label {
+    display: block;
+    font-weight: 700;
+    font-size: .88rem;
+    color: var(--text);
+    margin-bottom: .65rem;
+}
+
+.filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+
+.filter-radio {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem .75rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: .9rem;
+    color: var(--muted);
+    transition: .2s;
+}
+
+    .filter-radio input {
+        display: none;
+    }
+
+    .filter-radio:hover {
+        background: var(--orange-light);
+        color: var(--text);
+    }
+
+    .filter-radio.active {
+        background: var(--orange-light);
+        color: var(--orange);
+        font-weight: 700;
+        border: 1px solid rgba(249,115,22,.35);
+    }
+
+.filter-count {
+    font-size: .76rem;
+    background: rgba(255,255,255,.06);
+    padding: .1rem .5rem;
+    border-radius: 99px;
+}
+
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+}
+
+.chip-option, .size-pill {
+    cursor: pointer;
+    user-select: none;
+}
+
+    .chip-option input, .size-pill input {
+        display: none;
+    }
+
+    .chip-option span, .size-pill span {
+        display: inline-block;
+        padding: .38rem .8rem;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: var(--bg);
+        color: var(--muted);
+        font-size: .84rem;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+    .chip-option:hover span, .size-pill:hover span {
+        border-color: var(--orange);
+        color: var(--text);
+    }
+
+    .chip-option.active span, .size-pill.active span {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: #fff;
+    }
+
+.price-preset-btn {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: .28rem .6rem;
+    font-size: .76rem;
+    font-weight: 600;
+    transition: .2s;
+}
+
+    .price-preset-btn:hover {
+        border-color: var(--orange);
+        color: var(--orange);
+    }
+
+.shop-toolbar {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: .85rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.sort-select {
+    width: auto;
+    min-width: 175px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.active-filter-tag {
+    background: var(--orange-light);
+    color: var(--orange);
+    border: 1px solid rgba(249,115,22,.35);
+    font-size: .78rem;
+    font-weight: 600;
+    padding: .22rem .65rem;
+    border-radius: 99px;
+}
+
+/* ===== Phân trang (Pagination) ===== */
+.sp-pagination {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: .45rem;
+    align-items: center;
+}
+
+    .sp-pagination li a {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        color: var(--text);
+        display: grid;
+        place-items: center;
+        text-decoration: none;
+        font-weight: 700;
+        transition: .2s;
+    }
+
+    .sp-pagination li:hover:not(.disabled) a {
+        border-color: var(--orange);
+        color: var(--orange);
+    }
+
+    .sp-pagination li.active a {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: #fff;
+        box-shadow: 0 6px 16px rgba(249,115,22,.35);
+    }
+
+    .sp-pagination li.disabled a {
+        opacity: .4;
+        pointer-events: none;
+    }
+
+.empty-state-box {
+    background: var(--card);
+    border: 1px dashed var(--line);
+    border-radius: 24px;
+    padding: 3rem 1.5rem;
+}
+
+.empty-icon {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--orange-light);
+    color: var(--orange);
+    display: inline-grid;
+    place-items: center;
+    font-size: 2rem;
+}
+
+/* ===== Trang Chi tiết Sản phẩm (Product/Details) ===== */
+.detail-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: clamp(1.4rem, 3vw, 2.5rem);
+}
+
+.gallery-main {
+    position: relative;
+    aspect-ratio: 5/4;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: radial-gradient(circle at 50% 38%,rgba(249,115,22,.26),transparent 65%), linear-gradient(145deg,#2E1B0E,#150E09);
+    display: grid;
+    place-items: center;
+}
+
+    .gallery-main img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity .25s ease, transform .35s ease;
+    }
+
+.gallery-placeholder i {
+    font-size: 5rem;
+    color: var(--orange);
+}
+
+.sku-float-badge {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    background: rgba(18,12,8,.82);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-size: .78rem;
+    font-weight: 700;
+    padding: .3rem .75rem;
+    border-radius: 99px;
+}
+
+.gallery-thumbs {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.thumb-item {
+    width: 78px;
+    height: 66px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid var(--line);
+    background: var(--bg);
+    padding: 0;
+    cursor: pointer;
+    transition: .2s;
+}
+
+    .thumb-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .thumb-item:hover,
+    .thumb-item.active {
+        border-color: var(--orange);
+        transform: translateY(-2px);
+    }
+
+.detail-cat-badge, .detail-brand-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: .3rem .85rem;
+    border-radius: 99px;
+    font-size: .78rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.detail-cat-badge {
+    background: var(--orange-light);
+    color: var(--orange);
+    border: 1px solid rgba(249,115,22,.35);
+}
+
+.detail-brand-badge {
+    background: rgba(255,255,255,.06);
+    color: var(--text);
+    border: 1px solid var(--line);
+}
+
+.detail-title {
+    font-weight: 800;
+    font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+    margin: .5rem 0 .85rem;
+    line-height: 1.2;
+}
+
+.star-group {
+    color: var(--accent);
+}
+
+.stock-badge {
+    font-size: .82rem;
+    font-weight: 600;
+    padding: .22rem .7rem;
+    border-radius: 99px;
+}
+
+    .stock-badge.in-stock {
+        background: rgba(34,197,94,.15);
+        color: #4ADE80;
+    }
+
+    .stock-badge.out-stock {
+        background: rgba(239,68,68,.15);
+        color: #F87171;
+    }
+
+.detail-price-box {
+    background: linear-gradient(135deg, rgba(249,115,22,.14), rgba(250,204,21,.05));
+    border: 1px solid rgba(249,115,22,.3);
+    border-radius: 18px;
+    padding: 1.1rem 1.4rem;
+}
+
+.detail-price-now {
+    font-size: clamp(1.65rem, 2.5vw, 2.15rem);
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.detail-price-old {
+    color: var(--muted);
+    font-size: 1.05rem;
+}
+
+.detail-save-tag {
+    background: var(--orange);
+    color: #fff;
+    font-size: .78rem;
+    font-weight: 700;
+    padding: .25rem .7rem;
+    border-radius: 99px;
+}
+
+.detail-desc {
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.variant-label {
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.variant-btn {
+    min-width: 54px;
+    padding: .5rem 1rem;
+    border-radius: 12px;
+    border: 1.5px solid var(--line);
+    background: var(--bg);
+    color: var(--text);
+    font-weight: 700;
+    font-size: .9rem;
+    transition: .2s;
+}
+
+    .variant-btn:hover:not(.disabled) {
+        border-color: var(--orange);
+        color: var(--orange);
+    }
+
+    .variant-btn.active {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: #fff;
+        box-shadow: 0 6px 16px rgba(249,115,22,.35);
+    }
+
+    .variant-btn.disabled {
+        opacity: .35;
+        text-decoration: line-through;
+        cursor: not-allowed;
+    }
+
+.qty-box {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    background: var(--bg);
+    overflow: hidden;
+}
+
+.qty-btn {
+    width: 42px;
+    height: 48px;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 1.1rem;
+    transition: .2s;
+}
+
+    .qty-btn:hover {
+        background: var(--orange-light);
+        color: var(--orange);
+    }
+
+.qty-box input {
+    width: 50px;
+    height: 48px;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    text-align: center;
+    font-weight: 700;
+    outline: none;
+}
+
+/* ===== Khu vực Đánh giá (Reviews) ===== */
+.review-summary-card,
+.review-form-card,
+.review-item-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 1.4rem;
+}
+
+.rating-picker {
+    display: inline-flex;
+    gap: .25rem;
+}
+
+.star-pick-btn {
+    background: transparent;
+    border: 0;
+    padding: 0 .15rem;
+    font-size: 1.35rem;
+    color: #523B2B;
+    transition: transform .15s, color .15s;
+}
+
+    .star-pick-btn.active {
+        color: var(--accent);
+    }
+
+    .star-pick-btn:hover {
+        transform: scale(1.15);
+    }
+
+.review-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--orange), #C2410C);
+    color: #fff;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.review-avatar-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--orange);
+}
+
+.review-comment-text {
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* ===== Trang Giới thiệu (About) & Liên hệ (Contact) ===== */
+.about-hero {
+    background: radial-gradient(rgba(255,255,255,.12) 1.5px, transparent 1.5px) 0 0/26px 26px, linear-gradient(135deg, #FB923C, #F97316 48%, #C2410C);
+    border-radius: 28px;
+    padding: clamp(2rem, 4.5vw, 4rem);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-hero-badge {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.16);
+    border: 2px dashed rgba(255,255,255,.55);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    font-weight: 800;
+}
+
+    .about-hero-badge i {
+        font-size: 4.2rem;
+        color: var(--accent);
+    }
+
+.stat-card, .value-card, .sport-pillar-card, .contact-info-card, .contact-form-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.6rem;
+    transition: .25s;
+}
+
+    .stat-card:hover, .value-card:hover, .sport-pillar-card:hover {
+        border-color: var(--orange);
+        transform: translateY(-4px);
+    }
+
+.stat-icon, .value-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    background: var(--orange-light);
+    color: var(--orange);
+    display: inline-grid;
+    place-items: center;
+    font-size: 1.6rem;
+}
+
+.stat-num {
+    font-weight: 800;
+    color: var(--accent);
+    margin: .75rem 0 .25rem;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.sport-pillar-card {
+    display: block;
+    text-decoration: none;
+    color: var(--text);
+    text-align: center;
+    height: 100%;
+}
+
+    .sport-pillar-card i {
+        width: 68px;
+        height: 68px;
+        border-radius: 20px;
+        background: var(--orange-light);
+        color: var(--orange);
+        display: inline-grid;
+        place-items: center;
+        font-size: 2rem;
+        transition: .25s;
+    }
+
+    .sport-pillar-card:hover {
+        color: var(--text);
+    }
+
+        .sport-pillar-card:hover i {
+            background: var(--orange);
+            color: #fff;
+            transform: scale(1.08) rotate(-4deg);
+        }
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.contact-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--orange-light);
+    color: var(--orange);
+    display: grid;
+    place-items: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.map-frame-box {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+}
+
+/* ===== Footer ===== */
+.site-footer {
+    background: #0D0805;
+    border-top: 1px solid var(--line);
+}
+
+.footer-desc {
+    color: var(--muted);
+    font-size: .92rem;
+    line-height: 1.65;
+}
+
+.footer-title {
+    font-weight: 800;
+    color: var(--text);
+    text-transform: uppercase;
+    font-size: .85rem;
+    letter-spacing: .06em;
+    margin-bottom: 1.1rem;
+}
+
+.footer-links, .footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+}
+
+    .footer-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: .92rem;
+        transition: .2s;
+        display: inline-flex;
+        align-items: center;
+        gap: .35rem;
+    }
+
+        .footer-links a i {
+            font-size: .72rem;
+            color: var(--orange);
+        }
+
+        .footer-links a:hover {
+            color: var(--orange);
+            transform: translateX(3px);
+        }
+
+    .footer-contact li {
+        display: flex;
+        align-items: flex-start;
+        gap: .65rem;
+        color: var(--muted);
+        font-size: .9rem;
+    }
+
+        .footer-contact li i {
+            color: var(--orange);
+            margin-top: .15rem;
+        }
+
+.social-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--text);
+    display: inline-grid;
+    place-items: center;
+    text-decoration: none;
+    transition: .2s;
+}
+
+    .social-btn:hover {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+.footer-bottom {
+    border-top: 1px solid var(--line);
+}
+
+.footer-badge {
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .78rem;
+    font-weight: 600;
+    padding: .3rem .75rem;
+    border-radius: 8px;
+}
+
+/* ===== Responsive toàn trang ===== */
+@media (max-width: 1199px) {
+    .p-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .p-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 991px) {
+    .p-grid, .p-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .filter-card {
+        position: static;
+    }
+}
+
+@media (max-width: 575px) {
+    .p-grid, .p-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: .85rem;
+    }
+
+    .p-body {
+        padding: .9rem 1rem 1.1rem;
+    }
+
+    .p-price b {
+        font-size: 1.05rem;
+    }
 }
