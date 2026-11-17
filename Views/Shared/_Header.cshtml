@@ -1,0 +1,95 @@
+@{
+    var ctrl = (ViewContext.RouteData.Values["controller"] ?? "").ToString();
+    var act = (ViewContext.RouteData.Values["action"] ?? "").ToString();
+    var isSale = Request.QueryString["onSale"] == "true" || Request.QueryString["OnSale"] == "true" || Request.QueryString["sale"] == "true";
+    var currentQuery = Request.QueryString["q"] ?? "";
+}
+<header class="topbar">
+    <div class="wrap d-flex align-items-center gap-3 gap-lg-4">
+        <a class="brand-logo" href="@Url.Action("Index", "Home")">
+            <i class="bi bi-lightning-charge-fill"></i> SportHub
+        </a>
+
+        <nav class="main-nav d-none d-lg-flex">
+            <a class="@(ctrl == "Home" && act == "Index" ? "active" : "")" href="@Url.Action("Index", "Home")">Trang chủ</a>
+            <a class="@(ctrl == "Product" && !isSale ? "active" : "")" href="@Url.Action("Index", "Product")">Sản phẩm</a>
+            <a class="@(ctrl == "Product" && isSale ? "active" : "")" href="@Url.Action("Index", "Product", new { onSale = true })">
+                <i class="bi bi-fire text-orange me-1"></i>Khuyến mãi
+            </a>
+            <a class="@(ctrl == "Home" && act == "About" ? "active" : "")" href="@Url.Action("About", "Home")">Giới thiệu</a>
+            <a class="@(ctrl == "Home" && act == "Contact" ? "active" : "")" href="@Url.Action("Contact", "Home")">Liên hệ</a>
+        </nav>
+
+        <form class="nav-search d-none d-md-block" action="@Url.Action("Index", "Product")" method="get">
+            <i class="bi bi-search"></i>
+            <input type="text" name="q" value="@currentQuery" placeholder="Tìm giày, áo tập, mã SP (SP001)..." autocomplete="off" />
+        </form>
+
+        <div class="ms-auto d-flex align-items-center gap-2">
+            <a class="icon-btn" href="@Url.Action("Index", "Wishlist")" title="Danh sách yêu thích">
+                <i class="bi bi-heart"></i>
+            </a>
+            <a class="icon-btn position-relative" href="@Url.Action("Index", "Cart")" title="Giỏ hàng">
+                <i class="bi bi-bag-check"></i>
+                <span class="cart-badge d-none" id="headerCartCount">0</span>
+            </a>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (ShopTheThao.Helpers.AuthHelper.UserRole(User) == "Admin")
+                {
+                    <a class="btn btn-outline-orange btn-sm d-none d-sm-inline-flex align-items-center gap-1" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">
+                        <i class="bi bi-speedometer2"></i> Quản trị
+                    </a>
+                }
+                <a class="btn btn-outline-orange btn-sm d-inline-flex align-items-center gap-1" href="@Url.Action("Index", "Profile")">
+                    <i class="bi bi-person-circle"></i>
+                    <span class="d-none d-sm-inline">@ShopTheThao.Helpers.AuthHelper.FullName(User)</span>
+                </a>
+                using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "m-0 d-none d-sm-block" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-orange btn-sm">Đăng xuất</button>
+                }
+            }
+            else
+            {
+                <a class="btn btn-outline-orange btn-sm" href="@Url.Action("Login", "Account")">Đăng nhập</a>
+                <a class="btn btn-orange btn-sm d-none d-sm-inline-block" href="@Url.Action("Register", "Account")">Đăng ký</a>
+            }
+
+            <button class="icon-btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavMenu" aria-expanded="false" aria-label="Mở menu">
+                <i class="bi bi-list fs-5"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="collapse d-lg-none" id="mobileNavMenu">
+        <div class="wrap pt-3 pb-2 border-top mt-3" style="border-color: var(--line) !important;">
+            <form class="nav-search mb-3 d-md-none" style="max-width: 100%;" action="@Url.Action("Index", "Product")" method="get">
+                <i class="bi bi-search"></i>
+                <input type="text" name="q" value="@currentQuery" placeholder="Tìm sản phẩm..." />
+            </form>
+            <div class="d-flex flex-column gap-1">
+                <a class="mobile-nav-link @(ctrl == "Home" && act == "Index" ? "active" : "")" href="@Url.Action("Index", "Home")"><i class="bi bi-house-door me-2"></i>Trang chủ</a>
+                <a class="mobile-nav-link @(ctrl == "Product" && !isSale ? "active" : "")" href="@Url.Action("Index", "Product")"><i class="bi bi-grid me-2"></i>Sản phẩm</a>
+                <a class="mobile-nav-link @(ctrl == "Product" && isSale ? "active" : "")" href="@Url.Action("Index", "Product", new { onSale = true })"><i class="bi bi-fire me-2"></i>Khuyến mãi</a>
+                <a class="mobile-nav-link @(ctrl == "Home" && act == "About" ? "active" : "")" href="@Url.Action("About", "Home")"><i class="bi bi-info-circle me-2"></i>Giới thiệu</a>
+                <a class="mobile-nav-link @(ctrl == "Home" && act == "Contact" ? "active" : "")" href="@Url.Action("Contact", "Home")"><i class="bi bi-envelope me-2"></i>Liên hệ</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (ShopTheThao.Helpers.AuthHelper.UserRole(User) == "Admin")
+                    {
+                        <a class="mobile-nav-link" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })"><i class="bi bi-speedometer2 me-2"></i>Quản trị hệ thống</a>
+                    }
+                    using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "mt-2 d-sm-none" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-orange btn-sm w-100">Đăng xuất</button>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</header>
+

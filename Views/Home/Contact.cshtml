@@ -1,19 +1,137 @@
-﻿@{
-    ViewBag.Title = "Contact";
+@{
+    ViewBag.Title = "Liên hệ";
+    var defaultName = User.Identity.IsAuthenticated ? ShopTheThao.Helpers.AuthHelper.FullName(User) : "";
+    var defaultEmail = User.Identity.IsAuthenticated ? User.Identity.Name : "";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+<div class="wrap py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="sp-breadcrumb mb-4">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")"><i class="bi bi-house-door me-1"></i>Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Liên hệ</li>
+        </ol>
+    </nav>
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>
-</main>
+    <!-- Tiêu đề trang -->
+    <div class="shop-banner mb-4">
+        <div>
+            <span class="shop-banner-tag"><i class="bi bi-headset me-1"></i>Hỗ trợ khách hàng 24/7</span>
+            <h1 class="shop-banner-title">Liên Hệ Với SportHub</h1>
+            <p class="shop-banner-sub mb-0">
+                Bạn cần tư vấn chọn size giày, kiểm tra đơn hàng hay hợp tác đặt đồ thể thao đội nhóm? Hãy gửi tin nhắn cho chúng tôi!
+            </p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <!-- Cột trái: Thông tin cửa hàng + Bản đồ -->
+        <div class="col-lg-5">
+            <div class="contact-info-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <h4 class="fw-bold mb-4"><i class="bi bi-shop text-orange me-2"></i>Thông tin cửa hàng</h4>
+
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Địa chỉ Showroom</h6>
+                            <p class="text-muted small mb-0">140 Lê Trọng Tấn, Phường Tây Thạnh, Quận Tân Phú, TP. Hồ Chí Minh</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Tổng đài tư vấn &amp; Mua hàng</h6>
+                            <p class="text-muted small mb-0">Hotline: <b class="text-orange">1900 6868</b> — Zalo: <b class="text-white">0909 123 456</b></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="bi bi-envelope-paper-fill"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Hộp thư điện tử</h6>
+                            <p class="text-muted small mb-0">support@sporthub.vn | cskh@sporthub.vn</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item mb-4">
+                        <div class="contact-icon"><i class="bi bi-clock-fill"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Giờ mở cửa</h6>
+                            <p class="text-muted small mb-0">Thứ 2 – Chủ Nhật: 08:00 sáng – 22:00 tối (Kể cả ngày lễ)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bản đồ nhúng -->
+                <div class="map-frame-box mt-2">
+                    <iframe title="Bản đồ SportHub"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.067294922526!2d106.6260906!3d10.8061579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752be27d8b4f4d%3A0x92dcba2950430867!2zMTQwIEzDqiBUcuG7jW5nIFTGsG4sIFTDonkgVGjDoG5oLCBUw6JuIFBow7osIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaA!5e0!3m2!1svi!2s!4v1710000000000!5m2!1svi!2s"
+                            width="100%" height="210" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột phải: Form gửi tin nhắn liên hệ (Lưu vào bảng Contacts) -->
+        <div class="col-lg-7">
+            <div class="contact-form-card h-100">
+                <h4 class="fw-bold mb-2"><i class="bi bi-send-check-fill text-orange me-2"></i>Gửi tin nhắn cho chúng tôi</h4>
+                <p class="text-muted small mb-4">Điền thông tin bên dưới, đội ngũ CSKH của SportHub sẽ phản hồi qua Email hoặc Số điện thoại của bạn trong vòng 24 giờ.</p>
+
+                @using (Html.BeginForm("Contact", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold small">Họ và tên <span class="text-danger">*</span></label>
+                            <div class="input-ico mb-0">
+                                <i class="bi bi-person"></i>
+                                <input type="text" name="Name" value="@defaultName" class="form-control" placeholder="Nhập họ và tên của bạn" required />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold small">Địa chỉ Email <span class="text-danger">*</span></label>
+                            <div class="input-ico mb-0">
+                                <i class="bi bi-envelope"></i>
+                                <input type="email" name="Email" value="@defaultEmail" class="form-control" placeholder="example@email.com" required />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold small">Số điện thoại</label>
+                            <div class="input-ico mb-0">
+                                <i class="bi bi-telephone"></i>
+                                <input type="tel" name="Phone" class="form-control" placeholder="090x xxx xxx" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold small">Chủ đề cần hỗ trợ</label>
+                            <select name="Subject" class="form-select" style="padding: .8rem 1rem; border-radius: 12px; background: var(--input); border-color: var(--line); color: var(--text);">
+                                <option value="Tư vấn chọn sản phẩm / size">Tư vấn chọn sản phẩm / size</option>
+                                <option value="Kiểm tra tình trạng đơn hàng">Kiểm tra tình trạng đơn hàng</option>
+                                <option value="Chính sách bảo hành & đổi trả">Chính sách bảo hành &amp; đổi trả</option>
+                                <option value="Đặt đồng phục / dụng cụ đội nhóm">Đặt đồng phục / dụng cụ đội nhóm</option>
+                                <option value="Góp ý dịch vụ khác">Góp ý dịch vụ khác</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small">Nội dung tin nhắn <span class="text-danger">*</span></label>
+                            <textarea name="Message" rows="5" class="form-control" style="border-radius: 12px;" placeholder="Nhập nội dung cần tư vấn (ví dụ: Mình cần tư vấn size giày đá bóng Nike Mercurial SP001...)" required></textarea>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-orange py-3 px-4 w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-paperplane-fill"></i>
+                                <span>Gửi liên hệ ngay</span>
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,294 @@
+@model ShopTheThao.ViewModels.ProductListViewModel
+@{
+    ViewBag.Title = !string.IsNullOrEmpty(Model.SelectedCategoryName)
+        ? Model.SelectedCategoryName
+        : (Model.OnSale == true ? "Sản phẩm khuyến mãi" : "Danh sách sản phẩm");
+    var vn = new System.Globalization.CultureInfo("vi-VN");
+}
+
+<div class="wrap py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="sp-breadcrumb mb-4">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")"><i class="bi bi-house-door me-1"></i>Trang chủ</a></li>
+            @if (!string.IsNullOrEmpty(Model.SelectedCategoryName))
+            {
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Product")">Sản phẩm</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.SelectedCategoryName</li>
+            }
+            else if (Model.OnSale == true)
+            {
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Product")">Sản phẩm</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Đang khuyến mãi</li>
+            }
+            else
+            {
+                <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+            }
+        </ol>
+    </nav>
+
+    <!-- Page Banner Header -->
+    <div class="shop-banner mb-4">
+        <div>
+            <span class="shop-banner-tag"><i class="bi bi-lightning-charge-fill me-1"></i>SportHub Collection</span>
+            <h1 class="shop-banner-title">
+                @if (!string.IsNullOrEmpty(Model.SelectedCategoryName))
+                {
+                    @Model.SelectedCategoryName
+                }
+                else if (!string.IsNullOrEmpty(Model.SelectedBrandName))
+                {
+                    @:Thương hiệu @Model.SelectedBrandName
+                }
+                else if (Model.OnSale == true)
+                {
+                    @:Săn Deal Thể Thao Giá Tốt
+                }
+                else if (!string.IsNullOrWhiteSpace(Model.q))
+                {
+                    @:Kết quả tìm kiếm: "@Model.q"
+                }
+                else
+                {
+                    @:Tất Cả Sản Phẩm Thể Thao
+                }
+            </h1>
+            <p class="shop-banner-sub mb-0">
+                Trang bị giày, quần áo và dụng cụ thể thao chính hãng — Tìm thấy <b class="text-orange">@Model.TotalItems</b> sản phẩm phù hợp.
+            </p>
+        </div>
+        <button class="btn btn-outline-orange d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#filterSidebarCollapse">
+            <i class="bi bi-funnel-fill me-1"></i> Bộ lọc tìm kiếm
+        </button>
+    </div>
+
+    <div class="row g-4">
+        <!-- Sidebar Bộ lọc -->
+        <div class="col-lg-3">
+            <div class="collapse d-lg-block" id="filterSidebarCollapse">
+                <form id="productFilterForm" action="@Url.Action("Index", "Product")" method="get" class="filter-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom" style="border-color: var(--line) !important;">
+                        <h5 class="mb-0 fw-bold d-flex align-items-center gap-2">
+                            <i class="bi bi-sliders text-orange"></i> Bộ lọc
+                        </h5>
+                        @if (Model.HasActiveFilters)
+                        {
+                            <a href="@Url.Action("Index", "Product")" class="small text-orange text-decoration-none fw-semibold">
+                                <i class="bi bi-arrow-counterclockwise"></i> Đặt lại
+                            </a>
+                        }
+                    </div>
+
+                    <input type="hidden" name="SortBy" id="hiddenSortBy" value="@Model.SortBy" />
+
+                    <!-- 1. Từ khóa -->
+                    <div class="filter-group">
+                        <label class="filter-label">Từ khóa tìm kiếm</label>
+                        <div class="position-relative">
+                            <input type="text" name="q" value="@Model.q" class="form-control form-control-sm pe-4" placeholder="Tên hoặc mã SP (SP001)..." />
+                            <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-2 text-muted"></i>
+                        </div>
+                    </div>
+
+                    <!-- 2. Danh mục -->
+                    <div class="filter-group">
+                        <label class="filter-label">Danh mục thể thao</label>
+                        <div class="filter-list">
+                            <label class="filter-radio @(!Model.CategoryId.HasValue ? "active" : "")">
+                                <input type="radio" name="CategoryId" value="" @(!Model.CategoryId.HasValue ? "checked" : "") onchange="this.form.submit()" />
+                                <span>Tất cả danh mục</span>
+                                <span class="filter-count">@Model.CategoryCounts.Values.Sum()</span>
+                            </label>
+                            @foreach (var cat in Model.Categories)
+                            {
+                                var count = Model.CategoryCounts.ContainsKey(cat.Id) ? Model.CategoryCounts[cat.Id] : 0;
+                                var isChecked = Model.CategoryId == cat.Id;
+                                <label class="filter-radio @(isChecked ? "active" : "")">
+                                    <input type="radio" name="CategoryId" value="@cat.Id" @(isChecked ? "checked" : "") onchange="this.form.submit()" />
+                                    <span>@cat.Name</span>
+                                    <span class="filter-count">@count</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- 3. Thương hiệu -->
+                    <div class="filter-group">
+                        <label class="filter-label">Thương hiệu</label>
+                        <div class="filter-chips">
+                            <label class="chip-option @(!Model.BrandId.HasValue ? "active" : "")">
+                                <input type="radio" name="BrandId" value="" @(!Model.BrandId.HasValue ? "checked" : "") onchange="this.form.submit()" />
+                                <span>Tất cả</span>
+                            </label>
+                            @foreach (var b in Model.Brands)
+                            {
+                                var isChecked = Model.BrandId == b.Id;
+                                <label class="chip-option @(isChecked ? "active" : "")">
+                                    <input type="radio" name="BrandId" value="@b.Id" @(isChecked ? "checked" : "") onchange="this.form.submit()" />
+                                    <span>@b.Name</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- 4. Khoảng giá -->
+                    <div class="filter-group">
+                        <label class="filter-label">Khoảng giá (₫)</label>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <input type="number" name="MinPrice" id="minPriceInput" value="@Model.MinPrice" min="0" step="50000" class="form-control form-control-sm" placeholder="Từ (₫)" />
+                            </div>
+                            <div class="col-6">
+                                <input type="number" name="MaxPrice" id="maxPriceInput" value="@Model.MaxPrice" min="0" step="50000" class="form-control form-control-sm" placeholder="Đến (₫)" />
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-1">
+                            <button type="button" class="price-preset-btn" onclick="setPriceRange(0, 500000)">Dưới 500K</button>
+                            <button type="button" class="price-preset-btn" onclick="setPriceRange(500000, 2000000)">500K - 2Tr</button>
+                            <button type="button" class="price-preset-btn" onclick="setPriceRange(2000000, '')">Trên 2Tr</button>
+                        </div>
+                    </div>
+
+                    <!-- 5. Kích cỡ (Size) -->
+                    @if (Model.AvailableSizes.Any())
+                    {
+                        <div class="filter-group">
+                            <label class="filter-label">Kích cỡ (Size)</label>
+                            <div class="filter-chips">
+                                <label class="size-pill @(string.IsNullOrEmpty(Model.Size) ? "active" : "")">
+                                    <input type="radio" name="Size" value="" @(string.IsNullOrEmpty(Model.Size) ? "checked" : "") onchange="this.form.submit()" />
+                                    <span>Tất cả</span>
+                                </label>
+                                @foreach (var sz in Model.AvailableSizes)
+                                {
+                                    var isChecked = string.Equals(Model.Size, sz, StringComparison.OrdinalIgnoreCase);
+                                    <label class="size-pill @(isChecked ? "active" : "")">
+                                        <input type="radio" name="Size" value="@sz" @(isChecked ? "checked" : "") onchange="this.form.submit()" />
+                                        <span>@sz</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- 6. Chỉ hiện đang giảm giá -->
+                    <div class="filter-group">
+                        <label class="form-check d-flex align-items-center gap-2 cursor-pointer mb-0">
+                            <input type="checkbox" class="form-check-input mt-0" name="OnSale" value="true" @(Model.OnSale == true ? "checked" : "") onchange="this.form.submit()" />
+                            <span class="small fw-semibold"><i class="bi bi-tag-fill text-orange me-1"></i>Chỉ hiện sản phẩm đang giảm giá</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-orange w-100 mt-2">
+                        <i class="bi bi-funnel me-1"></i> Áp dụng bộ lọc
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Danh sách sản phẩm & Thanh sắp xếp -->
+        <div class="col-lg-9">
+            <!-- Thanh công cụ phía trên -->
+            <div class="shop-toolbar mb-4">
+                <div class="d-flex align-items-center flex-wrap gap-2">
+                    <span class="text-muted small">
+                        Hiển thị <b class="text-white">@Model.Products.Count</b> / <b class="text-orange">@Model.TotalItems</b> sản phẩm
+                    </span>
+
+                    @if (Model.HasActiveFilters)
+                    {
+                        <div class="d-flex flex-wrap gap-2 ms-md-2">
+                            @if (!string.IsNullOrWhiteSpace(Model.q))
+                            {
+                                <span class="active-filter-tag">Từ khóa: "@Model.q"</span>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.SelectedCategoryName))
+                            {
+                                <span class="active-filter-tag">@Model.SelectedCategoryName</span>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.SelectedBrandName))
+                            {
+                                <span class="active-filter-tag">@Model.SelectedBrandName</span>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Size))
+                            {
+                                <span class="active-filter-tag">Size: @Model.Size</span>
+                            }
+                            @if (Model.MinPrice.HasValue || Model.MaxPrice.HasValue)
+                            {
+                                <span class="active-filter-tag">
+                                    Giá: @(Model.MinPrice.HasValue ? Model.MinPrice.Value.ToString("N0", vn) + "₫" : "0₫")
+                                    – @(Model.MaxPrice.HasValue ? Model.MaxPrice.Value.ToString("N0", vn) + "₫" : "Trở lên")
+                                </span>
+                            }
+                            @if (Model.OnSale == true)
+                            {
+                                <span class="active-filter-tag"><i class="bi bi-fire me-1"></i>Khuyến mãi</span>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <div class="d-flex align-items-center gap-2 ms-auto">
+                    <label class="text-muted small text-nowrap mb-0" for="sortSelect"><i class="bi bi-sort-down me-1"></i>Sắp xếp:</label>
+                    <select id="sortSelect" class="form-select form-select-sm sort-select" onchange="applySortOrder(this.value)">
+                        <option value="newest" @(Model.SortBy == "newest" ? "selected" : "")>Mới nhất</option>
+                        <option value="best_seller" @(Model.SortBy == "best_seller" || Model.SortBy == "bestseller" ? "selected" : "")>Bán chạy nhất</option>
+                        <option value="price_asc" @(Model.SortBy == "price_asc" ? "selected" : "")>Giá: Thấp đến Cao</option>
+                        <option value="price_desc" @(Model.SortBy == "price_desc" ? "selected" : "")>Giá: Cao đến Thấp</option>
+                        <option value="name_asc" @(Model.SortBy == "name_asc" ? "selected" : "")>Tên: A → Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Lưới sản phẩm -->
+            @if (Model.Products != null && Model.Products.Any())
+            {
+                <div class="p-grid p-grid-3">
+                    @foreach (var p in Model.Products)
+                    {
+                        @Html.Partial("_ProductCard", p)
+                    }
+                </div>
+
+                <!-- Phân trang -->
+                if (Model.TotalPages > 1)
+                {
+                    <nav aria-label="Phân trang sản phẩm" class="mt-5 d-flex justify-content-center">
+                        <ul class="sp-pagination">
+                            <li class="@(Model.Page <= 1 ? "disabled" : "")">
+                                <a href="@Url.Action("Index", "Product", new { q = Model.q, CategoryId = Model.CategoryId, BrandId = Model.BrandId, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy, Page = Model.Page - 1 })">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </li>
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li class="@(i == Model.Page ? "active" : "")">
+                                    <a href="@Url.Action("Index", "Product", new { q = Model.q, CategoryId = Model.CategoryId, BrandId = Model.BrandId, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy, Page = i })">@i</a>
+                                </li>
+                            }
+                            <li class="@(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                                <a href="@Url.Action("Index", "Product", new { q = Model.q, CategoryId = Model.CategoryId, BrandId = Model.BrandId, MinPrice = Model.MinPrice, MaxPrice = Model.MaxPrice, Size = Model.Size, OnSale = Model.OnSale, SortBy = Model.SortBy, Page = Model.Page + 1 })">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                }
+            }
+            else
+            {
+                <div class="empty-state-box text-center py-5">
+                    <div class="empty-icon mb-3"><i class="bi bi-search"></i></div>
+                    <h4 class="fw-bold">Không tìm thấy sản phẩm phù hợp</h4>
+                    <p class="text-muted mb-4">Thử thay đổi bộ lọc, khoảng giá hoặc từ khóa tìm kiếm khác để xem thêm sản phẩm.</p>
+                    <a href="@Url.Action("Index", "Product")" class="btn btn-orange">
+                        <i class="bi bi-arrow-repeat me-1"></i> Xem tất cả sản phẩm
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
